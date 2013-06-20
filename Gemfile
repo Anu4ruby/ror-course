@@ -7,6 +7,14 @@ gem 'rails', '3.2.13'
 
 gem 'sqlite3'
 
+group :development, :test do
+  gem 'rspec-rails', '~> 2.0'             # for writing specs
+end
+
+group :test do
+  gem "capybara", "~> 2.1.0"              # for integration testing
+  gem "factory_girl_rails", "~> 4.2.1"    # for creating test data
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
