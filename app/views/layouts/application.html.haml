@@ -7,11 +7,31 @@
     = csrf_meta_tags
   %body
     #content
+<<<<<<< HEAD
       #header
         = link_to 'home', root_url
         = link_to 'Course -Ruby on Rails', '#'
         = link_to 'Take a quick Ruby challange', '#'
         = link_to 'Ask a question', '#'
+=======
+      .navbar.navbar-fluid-top
+        .navbar-inner
+          .container-fluid
+            %a.btn.btn-navbar{:data =>{:target => '.nav-collapse', :toggle => 'collapse'}}
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+            .container-fluid.nav-collapse
+              %ul.nav
+                %li
+                  = link_to 'Home', root_url
+                %li
+                  = link_to 'Course -Ruby on Rails', '#'
+                %li
+                  = link_to 'Take a quick Ruby challange', '#'
+                %li
+                  = link_to 'Ask a question', '#'
+>>>>>>> 9aa879b... modified navigation bar
       #page-content
         // = render :partial => 'shared/search'
         = yield
