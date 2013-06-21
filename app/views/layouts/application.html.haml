@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %title Rails App
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    #content
+      #header
+        = link_to 'home', root_url
+        = link_to 'Course -Ruby on Rails', '#'
+        = link_to 'Take a quick Ruby challange', '#'
+        = link_to 'Ask a question', '#'
+      #page-content
+        // = render :partial => 'shared/search'
+        = yield
+      #footer
+        
