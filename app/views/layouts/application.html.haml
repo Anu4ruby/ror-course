@@ -49,10 +49,9 @@
             //         = link_to 'Take a quick Ruby challange', '#'
             //       %li
             //         = link_to 'Ask a question', '#'
-            .span9
-              // = bootstrap_flash guess this only work for rails not sass
-              = render :partial => 'shared/session'
-              = yield
+            // = bootstrap_flash guess this only work for rails not sass
+            = render :partial => 'shared/session'
+            = yield
       #footer
         %p
           &copy; RoR Ninja 2013
