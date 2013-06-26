@@ -13,6 +13,9 @@ class VisitorQuestionsController < ApplicationController
     end
     redirect_to :back, :notice => msg
   end
+  def show
+    @question = VisitorQuestion.find(params[:id])
+  end
   def not_respond
     @questions = VisitorQuestion.not_respond
   end
@@ -22,8 +25,9 @@ class VisitorQuestionsController < ApplicationController
   def responded
     @question = VisitorQuestion.find(params[:id])
     respond = params[:visitor_question][:respond]
-    if respond.length > 0 && @question.update_attribute('respond', )
+    if respond.length > 0 && @question.update_attribute('respond', respond)
       # send email to notify visitor
+      QuestionMailer.responded(@question).deliver
       redirect_to '/question/respond', :notice => 'question answered'
     else
       redirect_to :back, :notice => 'respond text too short'

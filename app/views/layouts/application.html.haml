@@ -31,7 +31,7 @@
                 %li
                   = link_to 'Take a quick Ruby challange', '#'
                 %li
-                  = link_to 'Ask a question', '#'
+                  = link_to 'Ask a question', '/question'
       #page-content
         - flash.each do |type, message|
           = content_tag(:div, message, class: "alert alert-#{type}")
