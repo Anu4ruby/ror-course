@@ -1,6 +1,6 @@
 = form_for @question, :url => respond_path(@question) do |f|
   .control-group
-    = @question.email
+    = @question.email + " asked:"
   .control-group
     = @question.description
   .control-group

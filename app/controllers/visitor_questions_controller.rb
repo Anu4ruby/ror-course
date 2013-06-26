@@ -7,24 +7,27 @@ class VisitorQuestionsController < ApplicationController
   def create
     @question = VisitorQuestion.new(params[:visitor_question])
     if @question.save
-      redirect_to :back
+      msg = "Thanks for your submittion"
     else
-      render :text => 'fail'
+      msg = "Please provide valid email id and description"
     end
+    redirect_to :back, :notice => msg
   end
   def not_respond
     @questions = VisitorQuestion.not_respond
   end
   def respond
     @question = VisitorQuestion.find(params[:id])
-    render :partial => 'respond_form'
   end
   def responded
     @question = VisitorQuestion.find(params[:id])
-    if @question.update_attribute('respond', params[:visitor_question][:respond])
-      redirect_to '/question/respond'
+    respond = params[:visitor_question][:respond]
+    if respond.length > 0 && @question.update_attribute('respond', )
+      # send email to notify visitor
+      redirect_to '/question/respond', :notice => 'question answered'
     else
-      render :text => 'fail'
+      redirect_to :back, :notice => 'respond text too short'
     end
+    
   end
 end

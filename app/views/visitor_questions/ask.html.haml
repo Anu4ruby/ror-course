@@ -3,9 +3,13 @@
 #question-list
   - @questions.each do |q|
     .list-item
-      .control-group
-        = q.email
-      .control-group
-        = q.description
-      .control-group
-        = q.respond
+      .ask
+        .questioner
+          = q.email + " asked:"
+        .detail
+          = q.description
+      .respond
+        .responser
+          = "Admin answered: "
+        .detail
+          = q.respond
