@@ -1,0 +1,2 @@
+class VisitorQuestionsController < ApplicationController
+end
