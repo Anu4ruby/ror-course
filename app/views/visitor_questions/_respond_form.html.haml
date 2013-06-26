@@ -1,0 +1,10 @@
+= form_for @question, :url => respond_path(@question) do |f|
+  .control-group
+    = @question.email
+  .control-group
+    = @question.description
+  .control-group
+    = f.label :respond
+    = f.text_area :respond
+  .control-group
+    = f.submit 'Respond'

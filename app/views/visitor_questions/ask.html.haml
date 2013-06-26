@@ -1,0 +1,11 @@
+.form
+  = render 'ask_form'
+#question-list
+  - @questions.each do |q|
+    .list-item
+      .control-group
+        = q.email
+      .control-group
+        = q.description
+      .control-group
+        = q.respond
