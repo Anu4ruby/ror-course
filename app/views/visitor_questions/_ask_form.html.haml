@@ -1,0 +1,9 @@
+= form_for @question, :url => question_path do |f|
+  .control-group
+    = f.label :email
+    = f.email_field :email
+  .control-group
+    = f.label :description
+    = f.text_area :description
+  .control-group
+    = f.submit 'Ask'

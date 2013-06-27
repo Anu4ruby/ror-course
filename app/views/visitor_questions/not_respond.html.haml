@@ -1,0 +1,5 @@
+- @questions.each do |q|
+  .wrapper
+    = q.email + ": " + q.description
+    %span
+      = link_to 'respond', respond_path(q)

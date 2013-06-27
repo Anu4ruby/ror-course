@@ -13,15 +13,16 @@
     = javascript_include_tag  "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
     <![endif]-->
   %body
-    #content
-      .navbar.navbar-fluid-top
+    #content.container
+      .navbar.navbar-inverse
         .navbar-inner
-          .container-fluid
+          .container
+            = link_to "RoR Course", root_path, class: "brand"
             %a.btn.btn-navbar{:data =>{:target => '.nav-collapse', :toggle => 'collapse'}}
               %span.icon-bar
               %span.icon-bar
               %span.icon-bar
-            .container-fluid.nav-collapse
+            .collapse.nav-collapse
               %ul.nav
                 %li
                   = link_to 'Home', root_url
@@ -30,10 +31,10 @@
                 %li
                   = link_to 'Take a quick Ruby challange', '#'
                 %li
-                  = link_to 'Ask a question', '#'
+                  = link_to 'Ask a question', '/question'
       #page-content
-        %p.notice= notice
-        %p.alert= alert
+        - flash.each do |type, message|
+          = content_tag(:div, message, class: "alert alert-#{type}")
         .container-fluid
           .row-fluid
             // for sidebar
@@ -48,11 +49,10 @@
             //         = link_to 'Take a quick Ruby challange', '#'
             //       %li
             //         = link_to 'Ask a question', '#'
-            .span9
-              // = bootstrap_flash guess this only work for rails not sass
-              = render :partial => 'shared/session'
-              = yield
+            // = bootstrap_flash guess this only work for rails not sass
+            = render :partial => 'shared/session'
+            = yield
       #footer
         %p
           &copy; RoR Ninja 2013
-    = javascript_include_tag "application"        
+    = javascript_include_tag "application"

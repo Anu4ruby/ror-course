@@ -2,7 +2,12 @@ RorCourse::Application.routes.draw do
   match 'home/ror' => 'home#ror'
   
   devise_for :users
-
+  match 'question/respond' => 'VisitorQuestions#not_respond', :via => [:get]
+  match 'question/respond/:id' => 'VisitorQuestions#respond', :via => [:get], :as => 'respond'
+  match 'question/respond/:id' => 'VisitorQuestions#responded', :via => [:post, :put]
+  match 'question' => 'VisitorQuestions#ask', :via => [:get], :as => 'question'
+  match 'question' => 'VisitorQuestions#create', :via => [:post]
+  match 'question/:id' => 'VisitorQuestions#show', :via => [:get], :as => 'show_question'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

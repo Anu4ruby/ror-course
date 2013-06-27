@@ -1,0 +1,2 @@
+module VisitorQuestionsHelper
+end
