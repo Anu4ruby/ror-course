@@ -1,4 +1,6 @@
-RorCourse::Application.routes.draw do
+RorCourse::Application.routes.draw do   
+  match 'home/ror' => 'home#ror'
+  
   devise_for :users
 
   # The priority is based upon order of creation:
