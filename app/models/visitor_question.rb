@@ -3,7 +3,7 @@ class VisitorQuestion < ActiveRecord::Base
   validates :email, :presence => true
   validates :description, :presence => true
   validates :respond, :length => {:minimum => 2}, :allow_blank => true
-  scope :not_respond, where('respond = \"\" OR respond is null')
-  scope :responded, where('respond !=\"\" AND respond is not null').order('updated_at DESC')
+  scope :not_respond, where(:respond => nil)
+  scope :responded, where("respond !='' AND respond is not null").order('updated_at DESC')
 end
 
