@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   protected
+  # check_authorization
   def authorize_user!
     if user_signed_in? && current_user.is_admin
       return
@@ -12,5 +13,9 @@ class ApplicationController < ActionController::Base
       redirect_to new_user_session_path
     end
   end
- 
+
+  # rescue_from CanCan::AccessDenied do |exception|
+  #   redirect_to root_url, :alert => exception.message
+  # end
+
 end
