@@ -8,6 +8,10 @@ RorCourse::Application.routes.draw do
   match 'question' => 'VisitorQuestions#ask', :via => [:get], :as => 'question'
   match 'question' => 'VisitorQuestions#create', :via => [:post]
   match 'question/:id' => 'VisitorQuestions#show', :via => [:get], :as => 'show_question'
+  
+  resources :challenges do
+    
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
