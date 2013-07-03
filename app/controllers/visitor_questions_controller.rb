@@ -28,7 +28,7 @@ class VisitorQuestionsController < ApplicationController
     if respond.length > 0 && @question.update_attribute('respond', respond)
       # send email to notify visitor
       QuestionMailer.responded(@question).deliver
-      redirect_to '/question/respond', :notice => 'question answered'
+      redirect_to not_respond_ask_path, :notice => 'question answered'
     else
       redirect_to :back, :notice => 'respond text too short'
     end

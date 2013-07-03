@@ -2,12 +2,12 @@ RorCourse::Application.routes.draw do
   match 'home/ror' => 'home#ror'
   
   devise_for :users
-  match 'question/respond' => 'VisitorQuestions#not_respond', :via => [:get]
-  match 'question/respond/:id' => 'VisitorQuestions#respond', :via => [:get], :as => 'respond'
-  match 'question/respond/:id' => 'VisitorQuestions#responded', :via => [:post, :put]
-  match 'question' => 'VisitorQuestions#ask', :via => [:get], :as => 'question'
-  match 'question' => 'VisitorQuestions#create', :via => [:post]
-  match 'question/:id' => 'VisitorQuestions#show', :via => [:get], :as => 'show_question'
+  match 'ask/respond' => 'VisitorQuestions#not_respond', :via => [:get], :as => 'not_respond_ask'
+  match 'ask/:id/respond' => 'VisitorQuestions#respond', :via => [:get], :as => 'respond_ask'
+  match 'ask/:id/respond' => 'VisitorQuestions#responded', :via => [:post, :put]
+  match 'ask' => 'VisitorQuestions#ask', :via => [:get], :as => 'ask'
+  match 'ask' => 'VisitorQuestions#create', :via => [:post]
+  match 'ask/:id' => 'VisitorQuestions#show', :via => [:get], :as => 'show_ask'
   
   resources :challenges do
     
