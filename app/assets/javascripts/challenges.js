@@ -2,7 +2,7 @@
 //# All this logic will automatically be available in application.js.
 //# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $(function(){
-	$(document).on('change', '#question_type', function(){
+	$(document).on('change', '#question_qtype', function(){
 		$.get('/challenges/new?type='+$(this).val(), function(data){
 			//alert(data);
 			$('form').replaceWith(data);

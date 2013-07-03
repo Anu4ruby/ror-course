@@ -1,11 +1,11 @@
 class ChallengesController < ApplicationController
   def new
-    @question = Question.new(type:params[:type])
+    @question = Question.new(qtype:params[:type])
     # @question.type = 'text'#'single-select'
-    if (@question.type == 'multi-select' || @question.type == 'single-select')
-      5.times { @question.choices.new }
-    else
+    if @question.type?('text')
       @question.answers.new
+    else
+      5.times { @question.choices.new }
     end
     if request.xhr?
       render :layout => false
