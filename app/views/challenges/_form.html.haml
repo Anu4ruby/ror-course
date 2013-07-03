@@ -1,0 +1,28 @@
+= nested_form_for  @question, :url => challenges_path do |f|
+  .control-group
+    = f.label :qtype, 'Type'
+    = f.select :qtype, options_for_select([['Free Text', 'text'],['Multi Select', 'multi-select'],['Single Select', 'single-select']], @question.qtype)
+  .control-group
+    = f.label :description, 'Question'
+    = f.text_area :description
+  .control-group
+    - if @question.type?('text')
+      Answer
+      = f.fields_for :answers do |builder|
+        = builder.text_field :description
+    - else
+      - if action_name == 'edit'
+        Answer(s)
+        = f.fields_for :answers do |builder|
+          = builder.select :choice_id, options_from_collection_for_select(@question.choices, :id, :description)
+          = builder.link_to_remove 'remove'
+        = f.link_to_add 'add an answer', :answers
+  .control-group.choices
+    - if !@question.type?('text')
+      Choices
+      = f.fields_for :choices do |builder|
+        %li
+          = render 'choice_fields', :f => builder
+      = f.link_to_add 'add a choice', :choices
+  .control-group
+    = f.submit 'Save'

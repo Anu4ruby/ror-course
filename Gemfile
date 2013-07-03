@@ -9,6 +9,7 @@ gem 'devise'
 gem 'haml'
 gem 'heroku'
 gem "cancan"
+gem 'nested_form'
 group :production do
   gem 'pg'
 end
