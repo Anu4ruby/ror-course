@@ -1,10 +1,12 @@
 class ChallengesController < ApplicationController
+  def index
+    
+  end
   def new
     @question = Question.new(qtype:params[:type])
     # @question.type = 'text'#'single-select'
-    if @question.type?('text')
-      @question.answers.new
-    else
+    @question.answers.new
+    if !@question.type?('text')
       5.times { @question.choices.new }
     end
     if request.xhr?
@@ -20,6 +22,17 @@ class ChallengesController < ApplicationController
     end
   end
   def show
-    
+    @question = Question.find(params[:id])
+  end
+  def edit
+    @question = Question.find(params[:id])
+  end
+  def update
+    @question = Question.find(params[:id])
+    if @question.update_attributes(params[:question])
+      redirect_to :action => 'edit'
+    else
+      redirect_to :back, :notice => 'fails'
+    end
   end
 end

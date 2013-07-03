@@ -1,21 +1,20 @@
-= nested_form_for  @question, :url => challenges_path do |f|
+= nested_form_for  @question do |f|
   .control-group
     = f.label :qtype, 'Type'
     = f.select :qtype, options_for_select([['Free Text', 'text'],['Multi Select', 'multi-select'],['Single Select', 'single-select']], @question.qtype)
   .control-group
     = f.label :description, 'Question'
     = f.text_area :description
-  .control-group
+  .control-group.answers
     - if @question.type?('text')
       Answer
       = f.fields_for :answers do |builder|
-        = builder.text_field :description
+        = render 'text_answer_fields', :f => builder
     - else
       - if action_name == 'edit'
         Answer(s)
         = f.fields_for :answers do |builder|
-          = builder.select :choice_id, options_from_collection_for_select(@question.choices, :id, :description)
-          = builder.link_to_remove 'remove'
+          = render 'answer_fields', :f => builder
         = f.link_to_add 'add an answer', :answers
   .control-group.choices
     - if !@question.type?('text')

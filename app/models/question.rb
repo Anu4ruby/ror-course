@@ -5,8 +5,8 @@ class Question < ActiveRecord::Base
   validates :description, :presence => true
   validates :qtype, :presence => true
   # validates :created_by, :presence => true
-  accepts_nested_attributes_for :choices
-  accepts_nested_attributes_for :answers
+  accepts_nested_attributes_for :choices, :allow_destroy => true, :reject_if => proc { |choice| choice['description'].blank? }
+  accepts_nested_attributes_for :answers, :allow_destroy => true, :reject_if => proc { |answer| answer['description'].blank? && answer['choice_id'].blank? }
   def type?(type)
     if self.qtype.nil? && type == 'text'
       true

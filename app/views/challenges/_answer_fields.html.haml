@@ -1,0 +1,2 @@
+= f.select :choice_id, options_from_collection_for_select(@question.choices, :id, :description, f.object.choice_id)
+= f.link_to_remove 'remove'

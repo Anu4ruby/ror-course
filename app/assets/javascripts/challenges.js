@@ -2,10 +2,20 @@
 //# All this logic will automatically be available in application.js.
 //# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $(function(){
+	triggerQuestionType();
+	addChoiceSelection();
+});
+function triggerQuestionType(){
 	$(document).on('change', '#question_qtype', function(){
 		$.get('/challenges/new?type='+$(this).val(), function(data){
 			//alert(data);
 			$('form').replaceWith(data);
 		});
-	})
-});
+	});
+}
+function addChoiceSelection(){
+	$(document).on('blur', '.choices [name$="[description]"]', function(){
+		var choice = $(this).val();
+		//alert(choice);
+	});
+}

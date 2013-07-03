@@ -1,1 +1,12 @@
-showing...
+.group
+  type:
+  = @question.qtype
+.group
+  Answers:
+  - @question.answers.each do |answer|
+    = (answer.description || answer.choice.description) +", "
+.group
+  Choices:
+  - @question.choices.each do |choice|
+    .group 
+      = choice.description
