@@ -1,4 +1,7 @@
 RorCourse::Application.routes.draw do   
+  resources :contents
+
+
   match 'home/ror' => 'home#ror'
   
   devise_for :users
