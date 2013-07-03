@@ -1,4 +1,5 @@
 class ChallengesController < ApplicationController
+  before_filter :get_question, :only => [:show, :edit, :update]
   def index
     
   end
@@ -22,17 +23,18 @@ class ChallengesController < ApplicationController
     end
   end
   def show
-    @question = Question.find(params[:id])
   end
   def edit
-    @question = Question.find(params[:id])
   end
   def update
-    @question = Question.find(params[:id])
     if @question.update_attributes(params[:question])
-      redirect_to :action => 'edit'
+      redirect_to :back, :notice => 'success'
     else
-      redirect_to :back, :notice => 'fails'
+      redirect_to :back, :notice => 'fails: '+(@question.errors.full_messages.first if @question.errors.any?)
     end
+  end
+  private
+  def get_question
+    @question = Question.find(params[:id])
   end
 end
