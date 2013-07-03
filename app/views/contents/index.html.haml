@@ -1,0 +1,10 @@
+%table
+  %tr
+    %td content      
+  - @contents.each do |content|  
+    %tr
+      %td= content.content  
+= link_to 'Edit', edit_content_path(@contents)
+|
+\#{link_to 'Back', contents_path}
+
