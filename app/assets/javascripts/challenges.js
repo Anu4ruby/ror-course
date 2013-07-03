@@ -4,6 +4,7 @@
 $(function(){
 	triggerQuestionType();
 	addChoiceSelection();
+	addAnswerAsChoice();
 });
 function triggerQuestionType(){
 	$(document).on('change', '#question_qtype', function(){
@@ -17,5 +18,15 @@ function addChoiceSelection(){
 	$(document).on('blur', '.choices [name$="[description]"]', function(){
 		var choice = $(this).val();
 		//alert(choice);
+	});
+}
+function addAnswerAsChoice(){
+	$(document).on('blur', '.answers [name$="[description]"]', function(){
+		var text = $(this).val();
+		if(text.length > 0){
+			$('form .choices a.add_nested_fields').click();
+			$('form .choices .fields').last().find('input').eq(0).val(text);
+		}
+			
 	});
 }

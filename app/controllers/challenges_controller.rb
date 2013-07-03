@@ -5,14 +5,7 @@ class ChallengesController < ApplicationController
   end
   def new
     @question = Question.new(qtype:params[:type])
-    # @question.type = 'text'#'single-select'
-    @question.answers.new
-    if !@question.type?('text')
-      5.times { @question.choices.new }
-    end
-    if request.xhr?
-      render :layout => false
-    end
+    ajax_no_layout
   end
   def create
     @question = Question.create(params[:question])
@@ -36,5 +29,10 @@ class ChallengesController < ApplicationController
   private
   def get_question
     @question = Question.find(params[:id])
+  end
+  def ajax_no_layout
+    if request.xhr?
+      render :layout => false
+    end
   end
 end

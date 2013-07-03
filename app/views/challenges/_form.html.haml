@@ -1,21 +1,17 @@
-= nested_form_for  @question do |f|
+-#= nested_form_for  @question do |f|
+= nested_form_for  setup_question(@question) do |f|
   .control-group
     = f.label :qtype, 'Type'
-    = f.select :qtype, options_for_select([['Free Text', 'text'],['Multi Select', 'multi-select'],['Single Select', 'single-select']], @question.qtype)
+    = f.select :qtype, options_for_select(question_types, @question.qtype)
   .control-group
     = f.label :description, 'Question'
     = f.text_area :description
   .control-group.answers
-    - if @question.type?('text')
-      Answer
-      = f.fields_for :answers do |builder|
-        = render 'text_answer_fields', :f => builder
-    - else
-      - if action_name == 'edit'
-        Answer(s)
-        = f.fields_for :answers do |builder|
-          = render 'answer_fields', :f => builder
-        = f.link_to_add 'add an answer', :answers
+    -# - if f.object.type?('text')
+    Answer(s)
+    = f.fields_for :answers
+    - if f.object.type?('multi-select')
+      = f.link_to_add 'add an answer', :answers
   .control-group.choices
     - if !@question.type?('text')
       Choices

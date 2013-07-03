@@ -1,2 +1,7 @@
-= f.select :choice_id, options_from_collection_for_select(@question.choices, :id, :description, f.object.choice_id)
-= f.link_to_remove 'remove'
+- if !@question.type?('multi-select')
+  = f.text_field :description
+- else
+  - if true#action_name == 'edit'
+    = f.select :choice_id, options_from_collection_for_select(@question.choices, :id, :description, f.object.choice_id)
+    = f.link_to_remove 'remove'
+-# if @question.type?('multi-select')
