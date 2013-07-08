@@ -15,5 +15,5 @@
 //= require bootstrap
 // require nested_form
 //= require jquery_nested_form
-//= require_tree .
+// = require_tree .
 //= require exp_list
