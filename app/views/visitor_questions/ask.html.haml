@@ -1,15 +1,17 @@
-.form
-  = render 'ask_form'
-#question-list
-  - @questions.each do |q|
-    .list-item
-      .ask
-        .questioner
-          = q.email + " asked:"
-        .detail
-          = q.description
-      .respond
-        .responser
-          = "Admin answered: "
-        .detail
-          = q.respond
+.span12.pull-left
+  %h1 Ask a question
+  .form
+    = render 'ask_form'
+  #question-list
+    - @questions.each do |q|
+      .list-item
+        .ask
+          .questioner
+            = q.email + " asked:"
+          .detail
+            = q.description
+        .respond
+          .responser
+            = "Admin answered: "
+          .detail
+            = q.respond
