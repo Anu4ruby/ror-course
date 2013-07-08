@@ -1,4 +1,3 @@
--#= nested_form_for  @question do |f|
 = nested_form_for  setup_question(@question) do |f|
   .control-group
     = f.label :qtype, 'Type'
@@ -6,18 +5,12 @@
   .control-group
     = f.label :description, 'Question'
     = f.text_area :description
-  .control-group.answers
-    -# - if f.object.type?('text')
-    Answer(s)
-    = f.fields_for :answers
-    - if f.object.type?('multi-select')
-      = f.link_to_add 'add an answer', :answers
   .control-group.choices
+    Answers/Choices
+    = f.fields_for :options do |builder|
+      .choice-list
+        = render 'choice_fields', :f => builder
     - if !@question.type?('text')
-      Choices
-      = f.fields_for :choices do |builder|
-        %li
-          = render 'choice_fields', :f => builder
-      = f.link_to_add 'add a choice', :choices
+      = f.link_to_add 'add a choice', :options, :class => 'btn'
   .control-group
     = f.submit nil

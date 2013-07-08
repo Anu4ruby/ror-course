@@ -1,9 +1,12 @@
-= form_for @question, :url => ask_path do |f|
+= form_for(@question, :url => ask_path, html: { class: 'form-horizontal span8' }) do |f|
   .control-group
-    = f.label :email
-    = f.email_field :email
+    = f.label :email, class: 'control-label'
+    .controls
+      = f.email_field :email
   .control-group
-    = f.label :description
-    = f.text_area :description
+    = f.label :description, class: 'control-label'
+    .controls
+      = f.text_area :description
   .control-group
-    = f.submit 'Ask'
+    .controls
+      = f.button 'Ask', class: 'btn btn-large'

@@ -13,12 +13,42 @@
  *=message.css
  *= require_tree .
  */
+
 @import "bootstrap";
 @import "bootstrap-responsive";
-body {
-  padding-top: 60px;
+
+html, body {
+  height: 100%;
 }
+
+#content {
+  min-height: 100%;
+}
+
+.navbar {
+  padding-top: 20px;
+}
+
+#page-content {
+  padding-bottom: 48px;  /* must be same height as the footer */
+}
+
+.session {
+  position: relative;
+  z-index: 1000;
+  margin-bottom: -24px;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 20px;
+  line-height: 30px;
+}
+
 #footer{
+  position: relative;
+  height: 48px;
+  margin-top: -48px; /* negative value of footer height */
+
   text-align: right;
 }
- 

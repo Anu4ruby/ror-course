@@ -1,2 +1,8 @@
-= f.text_field :description
-= f.link_to_remove "Remove"
+= f.text_field :content
+- if @question.type?('text')
+  = f.hidden_field :selected
+- else
+  = f.check_box :selected
+  = f.label :selected, 'Mark as answer'
+  = f.link_to_remove 'remove', :class => 'btn'
+-# if @question.type?('multi-select')

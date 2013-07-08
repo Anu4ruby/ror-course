@@ -18,28 +18,22 @@
         .navbar-inner
           .container
             = link_to "RoR Course", root_path, class: "brand"
-            %a.btn.btn-navbar{:data =>{:target => '.nav-collapse', :toggle => 'collapse'}}
-              %span.icon-bar
-              %span.icon-bar
-              %span.icon-bar
-            .collapse.nav-collapse
-              %ul.nav
-                %li
-                  = link_to 'Home', root_url
-                %li
-                  = link_to 'Course -Ruby on Rails',    home_ror_path
-                %li
-                  = link_to 'Take a quick Ruby challenge', challenges_path
-                %li
-                  = link_to 'Ask a question', ask_path
+            %ul.nav
+              %li
+                = link_to 'Home', root_url
+              %li
+                = link_to 'Course -Ruby on Rails',    home_ror_path
+              %li
+                = link_to 'Take a quick Ruby challenge', challenges_path
+              %li
+                = link_to 'Ask a question', ask_path
       #page-content
         - flash.each do |type, message|
           = content_tag(:div, message, class: "alert alert-#{type}")
-        .container-fluid
-          .row-fluid
+        .container
+          .row
             = render :partial => 'shared/session'
             = yield
-      #footer
-        %p
-          &copy; RoR Ninja 2013
+    #footer.container
+      %p.copyright &copy; RoR Ninja 2013
     = javascript_include_tag "application"
