@@ -1,16 +1,20 @@
-= nested_form_for  setup_question(@question) do |f|
+= nested_form_for(setup_question(@question), html: { class: 'form-horizontal span8' }) do |f|
   .control-group
-    = f.label :qtype, 'Type'
-    = f.select :qtype, options_for_select(question_types, @question.qtype)
+    = f.label :qtype, 'Type', class: 'control-label'
+    .controls
+      = f.select :qtype, options_for_select(question_types, @question.qtype)
   .control-group
-    = f.label :description, 'Question'
-    = f.text_area :description
+    = f.label :description, 'Question', class: 'control-label'
+    .controls
+      = f.text_area :description
   .control-group.choices
-    Answers/Choices
-    = f.fields_for :options do |builder|
-      .choice-list
-        = render 'choice_fields', :f => builder
-    - if !@question.type?('text')
-      = f.link_to_add 'add a choice', :options, :class => 'btn'
+    = f.label :options, 'Answers/Choices', class: 'control-label'
+    .controls
+      = f.fields_for :options do |builder|
+        .choice-list
+          = render 'choice_fields', :f => builder
+      - if !@question.type?('text')
+        = f.link_to_add 'add a choice', :options, :class => 'btn'
   .control-group
-    = f.submit nil
+    .controls
+      = f.submit nil
