@@ -1,12 +1,16 @@
 .group
-  type:
+  Type:
   = @question.qtype
+.group
+  Description: 
+  = @question.description
 .group
   Answers:
   - @question.answers.each do |answer|
-    = (answer.description || answer.choice.description) +", "
-.group
-  Choices:
-  - @question.choices.each do |choice|
-    .group 
-      = choice.description
+    = (answer.content) +", "
+- if !@question.type?('text')
+  .group
+    Choices:
+    - @question.options.each do |choice|
+      .group 
+        = choice.content
