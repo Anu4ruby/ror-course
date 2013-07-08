@@ -24,6 +24,7 @@ gem 'copycopter_client', '~> 2.0.1'
 group :test do
   gem "capybara", "~> 2.1.0"              # for integration testing
   gem "factory_girl_rails", "~> 4.2.1"    # for creating test data
+  gem 'simplecov'
 end
 
 # Gems used only for assets and not required

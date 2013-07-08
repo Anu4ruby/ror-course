@@ -18,3 +18,9 @@
 .DS_Store
 
 .project
+
+# Ignore coverage
+/coverage
+
+# Ignore heroku
+/heroku
