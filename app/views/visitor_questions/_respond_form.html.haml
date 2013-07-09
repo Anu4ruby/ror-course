@@ -1,10 +1,6 @@
-= form_for @question, :url => respond_ask_path(@question) do |f|
+= form_for @question, :url => respond_ask_path(@question), class: 'form-horizontal span8' do |f|
   .control-group
-    = @question.email + " asked:"
-  .control-group
-    = @question.description
-  .control-group
-    = f.label :respond
+    = f.label :respond, 'Respond:'
     = f.text_area :respond
   .control-group
     = f.submit 'Respond'

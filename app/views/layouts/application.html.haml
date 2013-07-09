@@ -31,8 +31,9 @@
         - flash.each do |type, message|
           = content_tag(:div, message, class: "alert alert-#{type}")
         .container
-          .row
+          .row.span11
             = render :partial => 'shared/session'
+          .row.span11
             = yield
     #footer.container
       %p.copyright &copy; RoR Ninja 2013

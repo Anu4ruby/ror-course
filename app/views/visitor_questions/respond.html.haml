@@ -1,1 +1,9 @@
+.row-fluid 
+  %h1 Responding
+.row-fluid
+  .label
+    = @question.email + " asked:"
+  .row-fluid.span12
+    = @question.description
+
 = render 'respond_form'

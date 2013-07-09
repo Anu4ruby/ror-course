@@ -1,5 +1,11 @@
-- @questions.each do |q|
-  .wrapper
-    = q.email + ": " + q.description
-    %span
-      = link_to 'respond', respond_ask_path(q)
+.row-fluid
+  %h1 Needed to respond
+.container-fluid
+  - @questions.each do |q|
+    .box.row-fluid
+      .label
+        %span
+          = link_to 'Respond', respond_ask_path(q)
+        = q.email + ": "
+      .span12
+        = q.description
