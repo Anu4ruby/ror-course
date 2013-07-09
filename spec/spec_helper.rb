@@ -1,8 +1,7 @@
 require 'simplecov'
 SimpleCov.start do
     add_filter "/heroku/"
-    add_filter "/ror-course/doc/"
-    add_filter "/ror-course/spec/"
+    add_filter "app/views"
     add_filter "/config/"
     add_filter "/spec/"
 end
