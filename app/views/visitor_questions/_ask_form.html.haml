@@ -1,4 +1,4 @@
-= form_for(@question, :url => ask_path, html: { class: 'form-horizontal span8' }) do |f|
+= form_for(@question, :url => ask_path, html: { class: 'form-horizontal span10' }) do |f|
   .control-group
     = f.label :email, class: 'control-label'
     .controls
@@ -9,4 +9,4 @@
       = f.text_area :description
   .control-group
     .controls
-      = f.button 'Ask', class: 'btn btn-large'
+      = f.button 'Ask', class: 'btn btn-large pull-right'

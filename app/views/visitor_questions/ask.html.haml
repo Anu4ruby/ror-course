@@ -1,17 +1,17 @@
 .span12.pull-left
   %h1 Ask a question
-  .form
-    = render 'ask_form'
-  #question-list
+  = render 'ask_form'
+  #question-list.clear-fix
     - @questions.each do |q|
-      .list-item
-        .ask
-          .questioner
+      .box.span11
+        .row-fluid
+          .span12.label.label-info
             = q.email + " asked:"
-          .detail
+          .span10
             = q.description
-        .respond
-          .responser
+        .row-fluid
+          .span12.label.label-success
             = "Admin answered: "
-          .detail
+          .span10
             = q.respond
+      
