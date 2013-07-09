@@ -10,7 +10,7 @@ function triggerQuestionType(){
 	$(document).on('change', '#question_qtype', function(){
 		$.get('/challenges/new?type='+$(this).val(), function(data){
 			//alert(data);
-			$('.span12.pull-left').replaceWith(data);
+			$('.form').replaceWith(data);
 		});
 	});
 	$('#question_type').change();
