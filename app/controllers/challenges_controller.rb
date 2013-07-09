@@ -4,7 +4,7 @@ class ChallengesController < ApplicationController
     
   end
   def new
-    @question = Question.new(qtype:params[:type])
+    @question = Question.new(qtype:params[:type]) 
     ajax_no_layout
   end
   def create
@@ -12,7 +12,8 @@ class ChallengesController < ApplicationController
     if @question.save
       redirect_to challenge_path(@question), :notice => 'created'
     else
-      redirect_to :back, :notice => 'failed'
+      flash[:notice] = 'failed'
+      render 'new'
     end
   end
   def show
@@ -30,9 +31,5 @@ class ChallengesController < ApplicationController
   def get_question
     @question = Question.find(params[:id])
   end
-  def ajax_no_layout
-    if request.xhr?
-      render :layout => false
-    end
-  end
+  
 end

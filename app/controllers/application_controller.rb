@@ -17,5 +17,9 @@ class ApplicationController < ActionController::Base
   # rescue_from CanCan::AccessDenied do |exception|
   #   redirect_to root_url, :alert => exception.message
   # end
-
+  def ajax_no_layout
+    if request.xhr?
+      render :layout => false
+    end
+  end
 end

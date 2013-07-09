@@ -10,9 +10,10 @@ function triggerQuestionType(){
 	$(document).on('change', '#question_qtype', function(){
 		$.get('/challenges/new?type='+$(this).val(), function(data){
 			//alert(data);
-			$('form').replaceWith(data);
+			$('.span12.pull-left').replaceWith(data);
 		});
 	});
+	$('#question_type').change();
 }
 function addChoiceSelection(){
 	$(document).on('blur', '.choices [name$="[description]"]', function(){
