@@ -5,6 +5,7 @@ $(function(){
 	triggerQuestionType();
 	addChoiceSelection();
 	addAnswerAsChoice();
+	toggleSingleSelectAnswer();
 });
 function triggerQuestionType(){
 	$(document).on('change', '#question_qtype', function(){
@@ -29,5 +30,11 @@ function addAnswerAsChoice(){
 			$('form .choices .fields').last().find('input').eq(0).val(text);
 		}
 			
+	});
+}
+function toggleSingleSelectAnswer(){
+	$(document).on('click', '.choices input[type=radio]', function(){
+		$('.choices input[type=radio]:checked').prop('checked', '');
+		$(this).prop('checked', 'checked');
 	});
 }

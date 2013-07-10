@@ -1,8 +1,9 @@
+= f.text_field :content, :class => 'span9'
 - if @question.type?('text')
   = f.hidden_field :selected
-  = f.text_field :content
 - else
-  = f.check_box :selected, :title => 'Mark as answer'
-  -#= f.label :selected, "Mark as answer"
-  = f.text_field :content
   = f.link_to_remove 'remove', :class => 'btn'
+  - if @question.type?('single-select')
+    = f.radio_button :selected, 'true', :title => 'Mark as answer', :class => 'offset1'
+  - else
+    = f.check_box :selected, :title => 'Mark as answer' , :class => 'offset1'

@@ -1,4 +1,6 @@
 .row-fluid
   %h1 Challenge Questions
   .row.span12 working on the detail......
-  = link_to 'New challenge question', new_challenge_path, class: 'btn'
+- if user_signed_in? && current_user.is_admin?
+  .row-fluid
+    = link_to 'New challenge question', new_challenge_path, class: 'btn'

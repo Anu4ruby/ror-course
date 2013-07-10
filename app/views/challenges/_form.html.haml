@@ -1,4 +1,4 @@
-= nested_form_for(setup_question(@question), html: { class: 'form-horizontal span8' }) do |f|
+= nested_form_for(setup_question(@question), html: { class: 'form-horizontal span12' }) do |f|
   .control-group
     = f.label :qtype, 'Type', class: 'control-label'
     .controls
@@ -6,9 +6,10 @@
   .control-group
     = f.label :description, 'Question', class: 'control-label'
     .controls
-      = f.text_area :description
+      = f.text_area :description, :class => 'span9'
   .control-group.choices
-    = f.label :options, 'Answers/Choices', class: 'control-label'
+    -#= f.label :options, 'Answers/Choices', class: 'control-label'
+    .control-label Answers/Choices
     .controls
       = f.fields_for :options do |builder|
         .choice-list
@@ -17,4 +18,4 @@
         = f.link_to_add 'add a choice', :options, :class => 'btn'
   .control-group
     .controls
-      = f.submit nil
+      = f.submit nil, :class => 'btn'
