@@ -3,7 +3,7 @@
     %td content      
   - @contents.each do |content|  
     %tr
-      %td= content.content  
+      %td= content.content.html_safe  
 = link_to 'Edit', edit_content_path(@contents)
 |
 \#{link_to 'Back', contents_path}

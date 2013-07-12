@@ -14,7 +14,8 @@ class ContentsController < ApplicationController
   # GET /contents/1
   # GET /contents/1.json
   def show
-    @content = Content.find(params[:id])
+    @content = Content.find(params[:id]) 
+     
 
     respond_to do |format|
       format.html # show.html.erb
