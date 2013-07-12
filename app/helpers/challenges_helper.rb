@@ -5,7 +5,7 @@ module ChallengesHelper
         question.qtype = 'text' 
       end
       if !question.type?('text')
-        5.times { question.options.new()}
+        (5-question.options.size).times { question.options.new()}
       else
         question.options.new(selected:true) 
       end
