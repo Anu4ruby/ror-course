@@ -11,5 +11,26 @@ require 'spec_helper'
 #   end
 # end
 describe ChallengesHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'questions types' do
+    it 'has hash of all question types with lable=>value' do
+      question_types()
+      true
+    end
+    
+  end
+  context 'setup question' do
+    it 'should return a question of type "text"' do
+      setup_question(Question.new)
+      true
+    end
+    it 'should return a question of type "single-select"' do
+      setup_question(Question.new(:qtype => 'single-select'))
+      true
+    end
+    it 'should return a question of type "multi-select"' do
+      setup_question(Question.new(:qtype => 'multi-select'))
+      true
+    end
+  end
+  
 end

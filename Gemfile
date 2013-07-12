@@ -31,7 +31,7 @@ gem "capybara", "~> 2.1.0"              # for integration testing
 group :test do
   gem "factory_girl_rails", "~> 4.2.1"    # for creating test data
   gem 'simplecov'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
 end
 
