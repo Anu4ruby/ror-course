@@ -4,6 +4,6 @@
 - else
   = f.link_to_remove 'remove', :class => 'btn'
   - if @question.type?('single-select')
-    = f.radio_button :selected, 'true', :title => 'Mark as answer', :class => 'offset1'
+    = f.radio_button :selected, 'true', :title => 'Mark as answer', :class => 'span1'
   - else
-    = f.check_box :selected, :title => 'Mark as answer' , :class => 'offset1'
+    = f.check_box :selected, :title => 'Mark as answer' , :class => 'span1'

@@ -1,10 +1,13 @@
 /.actions
 / - if can? :update, @home
 / = link_to "Edit", edit_home_path(@home)
-.row
+.row#title
   %h1.span3 RoR Ninja
-.row.span9.offset1
-  %p
-    Have you ever thought of learning a new language and a new framework? Most of us give-up even when we think it. Few of us find courage but lack of motivation/tutorials/examples, it's difficult to keep same passion through out the learning process and some of us give-up in between.
-  %p
-    How about learning basics of 3-4 languages, couple of frameworks and building a web application in 2 months? Sounds like a dream? Well it's all happening here, so do checkout what you can achieve in 2 months and get ready to join exciting team of developers. Dare to dream!
+.container.span12#ror-content
+  .span5.offset1
+    %p
+      Have you ever thought of learning a new language and a new framework? Most of us give-up even when we think it. Few of us find courage but lack of motivation/tutorials/examples, it's difficult to keep same passion through out the learning process and some of us give-up in between.
+    %p
+      How about learning basics of 3-4 languages, couple of frameworks and building a web application in 2 months? Sounds like a dream? Well it's all happening here, so do checkout what you can achieve in 2 months and get ready to join exciting team of developers. Dare to dream!
+  .span5
+    = image_tag 'developers_language.png'

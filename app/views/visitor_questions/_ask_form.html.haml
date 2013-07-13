@@ -2,11 +2,11 @@
   .control-group
     = f.label :email, class: 'control-label'
     .controls
-      = f.email_field :email
+      = f.email_field :email, class: 'span12'
   .control-group
     = f.label :description, class: 'control-label'
     .controls
-      = f.text_area :description
+      = f.text_area :description, :rows => '4', class: 'span12 noresize'
   .control-group
     .controls
-      = f.button 'Ask', class: 'btn btn-large pull-right'
+      = f.button 'Ask', class: 'btn'

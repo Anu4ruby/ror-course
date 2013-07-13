@@ -9,13 +9,12 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *=exp_list.css
- *=message.css
- *= require_tree .
+ *= #{controller_name}
+ * require_tree .
  */
 
 @import "bootstrap";
-@import "bootstrap-responsive";
+// @import "bootstrap-responsive";
 
 html, body {
   height: 100%;
@@ -26,11 +25,19 @@ html, body {
 }
 
 .navbar {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 #page-content {
-  padding-bottom: 48px;  /* must be same height as the footer */
+ padding-bottom: 48px;  /* must be same height as the footer */
+ padding-left: 20px;
+ padding-right: 20px;
+ position: relative;
+ margin-top: 30px;
+}
+
+#title{
+  margin-bottom: 60px;
 }
 
 .session {
@@ -51,4 +58,7 @@ h1 {
   margin-top: -48px; /* negative value of footer height */
 
   text-align: right;
+}
+.noresize{
+  resize: none;
 }
