@@ -1,0 +1,13 @@
+.navbar.navbar-inverse
+  .navbar-inner
+    .container
+      = link_to "RoR Course", root_path, class: "brand"
+      %ul.nav
+        %li
+          = link_to 'Home', root_url
+        %li
+          = link_to 'Course -Ruby on Rails',    contents_path
+        %li
+          = link_to 'Take a quick Ruby challenge', challenges_path
+        %li
+          = link_to 'Ask a question', ask_path

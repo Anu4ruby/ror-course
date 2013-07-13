@@ -1,9 +1,8 @@
 .row-fluid 
-  %h1 Responding
-.row-fluid
-  .label
-    = @question.email + " asked:"
-  .row-fluid.span12
-    = @question.description
-
-= render 'respond_form'
+  #title
+    %h1 Responding
+.offset1
+  .row-fluid
+    = render 'question', :question => @question
+  .row-fluid
+    = render 'respond_form'

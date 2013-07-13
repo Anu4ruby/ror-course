@@ -1,11 +1,6 @@
 .row-fluid
-  %h1 Needed to respond
+  #title
+    %h1 Pending Questions
 .container-fluid
   - @questions.each do |q|
-    .box.row-fluid
-      .label
-        %span
-          = link_to 'Respond', respond_ask_path(q)
-        = q.email + ": "
-      .span12
-        = q.description
+    = render 'question', :question => q, :link => true

@@ -1,0 +1,23 @@
+- link = link ? true : false
+.box.span11
+  .row-fluid
+    .label.label-info.span12
+      .pull-right
+        asked
+        = distance_of_time_in_words_to_now(question.created_at)
+        ago
+      = question.email + ":"
+    .span12
+      = question.description
+  - if question.respond      
+    .row-fluid
+      .label.label-success.span12
+        .pull-right
+          answered
+          = distance_of_time_in_words_to_now(question.updated_at)
+          ago
+        = "Admin: "
+      .span12
+        = question.respond
+  - if link
+    = link_to 'Respond', respond_ask_path(question), :class => 'btn pull-right'
