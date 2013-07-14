@@ -14,6 +14,13 @@
 
 @import "bootstrap";
 // @import "bootstrap-responsive";
+body{
+  background-color: #0088cc;
+}
+
+#content, #footer{
+  background-color: white;
+}
 
 html, body {
   height: 100%;
@@ -21,6 +28,7 @@ html, body {
 
 #content {
   min-height: 100%;
+  padding: 0 10px;
 }
 
 .navbar {
