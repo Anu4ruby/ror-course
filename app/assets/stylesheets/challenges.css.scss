@@ -5,6 +5,13 @@
 .pages{
   counter-reset: item;
 }
+.pages .page{
+  display: none;
+  min-height: 800px;
+}
+.pages .page.active{
+  display: block;
+}
 .page-item{
   padding: 5px 8px;
 }

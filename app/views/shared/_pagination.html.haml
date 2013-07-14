@@ -1,0 +1,9 @@
+.pagination.pull-right
+  %ul
+    %li.previous
+      = link_to 'previous','#'
+    - 1.upto pages do |page|
+      %li
+        = link_to page, '#', :data => {:page => page}
+    %li.next
+      = link_to 'next','#'

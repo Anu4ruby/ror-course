@@ -4,6 +4,7 @@
   = form_tag('/challenges/submit')
   - pages = (@questions.size/10 + 1).to_i
   .container-fluid.pages
+    = render 'shared/pagination', :pages => pages
     - 1.upto pages do |page|
       .page.row-fluid
         .span10.offset1
@@ -20,7 +21,6 @@
                       = choice.content 
                 - else
                   = 'multi selection'
-          - if page.between?(1, pages - 1)
-            = link_to 'Next Page', 'javascript:void(0)', :data => {:page => page}, :class => 'btn pull-right'
-          - elsif page == pages
-            = submit_tag 'Submit', :class => 'btn pull-right'
+    = submit_tag 'Submit', :class => 'btn pull-right'
+    = render 'shared/pagination', :pages => pages
+    
