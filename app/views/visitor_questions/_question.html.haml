@@ -1,5 +1,5 @@
 - link = link ? true : false
-.box.span11
+.box
   .row-fluid
     .label.label-info.span12
       .pull-right
@@ -20,4 +20,5 @@
       .span12
         = question.respond
   - if link
-    = link_to 'Respond', respond_ask_path(question), :class => 'btn pull-right'
+    .row-fluid
+      = link_to 'Respond', respond_ask_path(question), :class => 'btn pull-right'

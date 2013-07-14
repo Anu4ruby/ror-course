@@ -2,11 +2,11 @@
   .control-group
     = f.label :qtype, 'Type', class: 'control-label'
     .controls
-      = f.select :qtype, options_for_select(question_types, @question.qtype), {}, {:class => 'span9'}
+      = f.select :qtype, options_for_select(question_types, @question.qtype), {}, {:class => 'span10'}
   .control-group
     = f.label :description, 'Question', class: 'control-label'
     .controls
-      = f.text_area :description, :rows => '4', :class => 'span9 noresize'
+      = f.text_area :description, :rows => '4', :class => 'span10 noresize'
   .control-group.choices
     -#= f.label :options, 'Answers/Choices', class: 'control-label'
     .control-label Answers/Choices

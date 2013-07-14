@@ -1,7 +1,22 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#ror-content img{
+$radius: 20px;
+#ror-content{
   position: relative;
-  top: -25px;
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+          border-radius: $radius;
+          border: 1px solid black;
+          clear: both;
+          padding: 10px 20px;
+}
+#ror-content #dev-lang{
+  position: absolute;
+  right: 0px;
+  top: -10px;
+  height: 290px;
+  background: url('/assets/developers_language.png') no-repeat center center;
+  background-size: cover;
+  clip: rect(20px 360px 290px 20px);
 }

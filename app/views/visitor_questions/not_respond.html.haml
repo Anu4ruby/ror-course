@@ -1,6 +1,6 @@
+#title
+  %h1 Pending Questions
 .row-fluid
-  #title
-    %h1 Pending Questions
-.container-fluid
-  - @questions.each do |q|
-    = render 'question', :question => q, :link => true
+  .span11.offset1
+    - @questions.each do |q|
+      = render 'question', :question => q, :link => true

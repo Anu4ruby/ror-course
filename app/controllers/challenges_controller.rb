@@ -1,5 +1,7 @@
 class ChallengesController < ApplicationController
   before_filter :get_question, :only => [:show, :edit, :update]
+  before_filter :authorize_user!, :except => [:index]
+  
   def index
     
   end
