@@ -19,14 +19,15 @@
         = render 'shared/admin/nav'
       - else
         = render 'shared/nav'
-      .text-right
-        = render :partial => 'shared/session'
       #page-content
+        .text-right
+          = render :partial => 'shared/session'
         - flash.each do |type, message|
           = content_tag(:div, message, class: "alert alert-#{type}")
-        .container.span11
+        .container
           = yield
     #footer.container
       %p.copyright &copy; RoR Ninja 2013
-    = javascript_include_tag "application"
-    = javascript_include_tag controller_name if asset_exist?('#{controller_name}.js')
+    .javascripts
+      = javascript_include_tag "application"
+      = javascript_include_tag controller_name if asset_exist?('#{controller_name}.js')

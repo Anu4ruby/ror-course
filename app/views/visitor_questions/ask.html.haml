@@ -1,12 +1,12 @@
+#title
+  %h1 Ask a question
 .row-fluid
-  #title
-    %h1 Ask a question
   = render 'ask_form'
 .row-fluid
-  .span12
-  .span12
+  .span10.offset1
     - @questions.each do |q|
       = render 'question', :question => q
-  .span12
+.row-fluid      
+  .span10.offset1
     = link_to 'Load More', 'javascript:void(0)', :class => 'btn span12', :id => 'loadmore'
     

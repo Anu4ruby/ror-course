@@ -1,6 +1,13 @@
 // Place all the styles related to the challenges controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.choices label{
-  display: inline-block;
+.choices .fields input[type=radio],.choices .fields input[type=checkbox]{
+  min-height: 24px;
+}
+.choices .span-static{
+  width: 450px;
+}
+
+.choices .fields{
+  padding-bottom: 4px;
 }

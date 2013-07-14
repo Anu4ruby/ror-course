@@ -14,14 +14,6 @@
 
 @import "bootstrap";
 // @import "bootstrap-responsive";
-body{
-  background-color: #0088cc;
-}
-
-#content, #footer{
-  background-color: white;
-}
-
 html, body {
   height: 100%;
 }
@@ -36,21 +28,14 @@ html, body {
 }
 
 #page-content {
- padding-bottom: 48px;  /* must be same height as the footer */
- padding-left: 20px;
- padding-right: 20px;
- position: relative;
- margin-top: 30px;
+  padding-bottom: 48px;  /* must be same height as the footer */
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
 }
 
 #title{
   margin-bottom: 60px;
-}
-
-.session {
-  position: relative;
-  z-index: 1000;
-  margin-bottom: -24px;
 }
 
 h1 {
@@ -63,12 +48,22 @@ h1 {
   position: relative;
   height: 48px;
   margin-top: -48px; /* negative value of footer height */
-
+  padding-right: 20px;
   text-align: right;
 }
+
+body{
+  background-color: #0088cc;
+}
+
+#content, #footer{
+  background-color: white;
+}
+
+
 .noresize{
   resize: none;
 }
-.row-fluid .span0{
-  width: 50px;
+#page-content > .container{
+  width: 900px;
 }
