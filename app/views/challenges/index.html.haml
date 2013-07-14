@@ -1,3 +1,26 @@
 #title
   %h1 Challenge Questions
-.row.span12 working on the detail......
+.row-fluid.pages
+  = form_tag('/challenges/submit')
+  - pages = (@questions.size/10 + 1).to_i
+  .container-fluid.pages
+    - 1.upto pages do |page|
+      .page.row-fluid
+        .span10.offset1
+          - page_items(@questions, page).each do |item|
+            .page-item
+              .description
+                = item.description
+              .answer
+                - if item.type? 'text'
+                  = text_field_tag 'questions[#{item.id}][answer]'
+                - elsif item.type? 'single-select'
+                  - item.options.each do |choice|
+                    .choice
+                      = choice.content 
+                - else
+                  = 'multi selection'
+          - if page.between?(1, pages - 1)
+            = link_to 'Next Page', 'javascript:void(0)', :data => {:page => page}, :class => 'btn pull-right'
+          - elsif page == pages
+            = submit_tag 'Submit', :class => 'btn pull-right'

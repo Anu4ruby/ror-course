@@ -3,7 +3,7 @@ class ChallengesController < ApplicationController
   before_filter :authorize_user!, :except => [:index]
   
   def index
-    
+    @questions = Question.all
   end
   def new
     @question = Question.new(qtype:params[:type]) 
@@ -21,6 +21,9 @@ class ChallengesController < ApplicationController
   def show
   end
   def edit
+  end
+  def check_answers
+    
   end
   def update
     if @question.update_attributes(params[:question])
