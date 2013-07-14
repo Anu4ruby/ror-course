@@ -12,7 +12,7 @@ class ChallengesController < ApplicationController
   def create
     @question = Question.create(params[:question])
     if @question.save
-      redirect_to challenge_path(@question), :notice => 'created'
+      redirect_to challenge_path(@question)
     else
       flash[:notice] = 'failed'
       render 'new'

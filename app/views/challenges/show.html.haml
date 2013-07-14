@@ -1,28 +1,29 @@
-.container-fluid
-  %h1.span12
+#title
+  %h1
     Challenge Question
+.row-fluid
+  .span2.text-right
+    Type:
+  .span10
+    = @question.qtype
+.row-fluid
+  .span2.text-right
+    Description: 
+  .span10
+    = @question.description
+.row-fluid
+  .span2.text-right
+    Answers:
+  .span10
+    - @question.answers.each do |answer|
+      .answer
+        = (answer.content)
+- if !@question.type?('text')
   .row-fluid
     .span2.text-right
-      Type:
+      Choices:
     .span10
-      = @question.qtype
-  .row-fluid
-    .span2.text-right
-      Description: 
-    .span10
-      = @question.description
-  .row-fluid
-    .span2.text-right
-      Answers:
-    .span10
-      - @question.answers.each do |answer|
-        .answer
-          = (answer.content)
-  - if !@question.type?('text')
-    .row-fluid
-      .span2.text-right
-        Choices:
-      .span10
-        - @question.options.each do |choice|
-          .choice
-            = choice.content
+      - @question.options.each do |choice|
+        .choice
+          = choice.content
+= link_to 'New Question', new_challenge_path, :class => 'btn'
