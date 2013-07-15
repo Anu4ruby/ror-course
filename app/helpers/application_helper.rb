@@ -1,6 +1,6 @@
 module ApplicationHelper
   def asset_exist?(filename)
-    Rails.application.assets.find_asset(filename).nil?
+    !Rails.application.assets.find_asset(filename).nil?
   end
   def page_items(collection, page, page_size = 10)
     pages = (collection.size/page_size + 1).to_i
@@ -12,7 +12,6 @@ module ApplicationHelper
       else
         collection[start_idx..-1]
       end
-      
     else
       []
     end
