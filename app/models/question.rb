@@ -24,11 +24,11 @@ class Question < ActiveRecord::Base
   def answer_picked?
     if type?('multi-select')
       if !options.any? { |option| option.selected }
-         errors.add(:answer, "pick one please")
+         errors.add(:answer, "at least select 1")
       end
     else
       if options.select{|o| o.selected?}.size != 1
-        errors.add(:answer, "pick one please")
+        errors.add(:answer, "at least select 1")
       end
     end
   end
