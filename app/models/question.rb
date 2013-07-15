@@ -3,31 +3,36 @@ class Question < ActiveRecord::Base
   has_many :options
   validates :description, :presence => true, :uniqueness => true
   validates :qtype, :presence => true
-  accepts_nested_attributes_for :options, :allow_destroy => true, :reject_if => proc { |option| option['content'].blank? }
-  before_validation :answer_picked
+  accepts_nested_attributes_for :options, :allow_destroy => true, 
+            :reject_if => proc { |option| option['content'].blank? }
+  validate :options_duplicated?, :answer_picked?
   def type?(type)
-    if self.qtype.nil? && type == 'text'
+    if qtype.nil? && type == 'text'
       true
     else
-      return self.qtype == type
+      qtype == type
     end
   end
   def answers
-    # Option.where('selected = ? AND question_id = ?', true, self.id)
-    self.options.where('selected = ?', true)
+    # Option.where('selected = ? AND question_id = ?', true, id)
+    options.where('selected = ?', true)
+  end
+  def check_answer
+    {correct: '', total: '', pending: ''}
   end
   private
-  def answer_picked
-    if self.type?('multi-select')
-      self.options.any? { |option| option.selected }
-    else
-      count = 0
-      self.options.each do |option|
-        if option.selected
-          count += 1
-        end
+  def answer_picked?
+    if type?('multi-select')
+      if !options.any? { |option| option.selected }
+         errors.add(:answer, "pick one please")
       end
-      count == 1 ? true:false
+    else
+      if options.select{|o| o.selected?}.size != 1
+        errors.add(:answer, "pick one please")
+      end
     end
+  end
+  def options_duplicated?
+    errors.add(:options, "has duplicate options") if options.size > options.map(&:content).uniq.size
   end
 end
