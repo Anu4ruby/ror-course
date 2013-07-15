@@ -1,36 +1,46 @@
 require 'spec_helper'
-
-# Specs in this file have access to a helper object that includes
-# the ChallengesHelper. For example:
-#
-# describe ChallengesHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       helper.concat_strings("this","that").should == "this that"
-#     end
-#   end
-# end
 describe ChallengesHelper do
   context 'questions types' do
     it 'has hash of all question types with lable=>value' do
-      question_types()
-      true
+      types = [['Free Text', 'text'],['Single Select', 'single-select'],['Multi Select', 'multi-select']]
+      question_types().should == types
     end
     
   end
   context 'setup question' do
-    it 'should return a question of type "text"' do
-      setup_question(Question.new)
-      true
+    context 'type of "text"' do
+      before(:each) do
+        @q = Question.new
+        @q1 = setup_question(@q)
+      end
+      it 'should return a question of type "text"' do
+        @q.qtype = 'text'
+        @q1.should == @q
+      end
+      it 'should has only 1 option' do
+        @q.options.new(:selected => true)
+        @q1.options == @q.options
+      end
     end
-    it 'should return a question of type "single-select"' do
-      setup_question(Question.new(:qtype => 'single-select'))
-      true
+    context 'type of "single-select"' do
+      before(:each) do
+        @q = Question.new(:qtype => 'single-select')
+        @q1 = setup_question(@q)
+      end
+      it 'should return a question of type "single-select"' do
+        @q1.should == @q
+      end
+      it 'should has 5 empty options' do
+        5.times{@q.options.new}
+        @q1.options == @q.options
+      end
     end
-    it 'should return a question of type "multi-select"' do
-      setup_question(Question.new(:qtype => 'multi-select'))
-      true
+    context 'type of "multi-select"' do
+      it 'should return a question of type "multi-select"' do
+        setup_question(Question.new(:qtype => 'multi-select'))
+        true
+      end  
     end
+    
   end
-  
 end
