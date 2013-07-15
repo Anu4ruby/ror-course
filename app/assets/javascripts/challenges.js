@@ -29,35 +29,31 @@ function pageNav(){
 function triggerPage(){
 	$(document).on('click', '.pagination li:not(.previous):not(.next)', function(e){
 		e.preventDefault();
-		var page = $(this).find('a').eq(0).data('page');
+		var page = $(this).children('a').eq(0).data('page');
 		setActivePager(page);
 	});
 }
 function triggerNextPage(){
-	$(document).on('click','.pagination .next', function(e){
+	$(document).on('click','.pagination li.next', function(e){
 		e.preventDefault();
-		var maxPage = $(this).prev().find('a').eq(0).data('page');
-		var nextPage = $(this).find('a').eq(0).data('page');
-		if (nextPage <= maxPage){
-			setActivePager(nextPage);
+		var active = $('.pagination li.active'); 
+		if(active.next().children('a').data('page')){
+			setActivePager(active.children('a').data('page') + 1)
 		}
 		
 	});
 }
 function triggerPrevPage(){
-	$(document).on('click', '.pagination .previous', function(e){
+	$(document).on('click', '.pagination li.previous', function(e){
 		e.preventDefault();
-		var prevPage = $(this).find('a').eq(0).data('page');
-		if(prevPage > 0){
-			setActivePager(prevPage);
+		var activePage = $('.pagination li.active > a').data('page'); 
+		if(activePage > 1){
+			setActivePager(activePage - 1);
 		}
 	});
 }
 function setActivePager(activePage){
 	$('.pagination').find('.active').removeClass('active');
-	$('.pagination .next > a').attr('data-page', activePage + 1);
-	$('.pagination .previous > a').attr('data-page', activePage - 1);
-		
 	$('.pagination').each(function(k, v){
 		$(v).find('ul li').eq(activePage).addClass('active');
 	});
