@@ -2,14 +2,13 @@
 //# All this logic will automatically be available in application.js.
 //# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $(function(){
+	pageNav();
 	triggerQuestionType();
 	toggleSingleSelectAnswer();
-	triggerPage();
 });
 function triggerQuestionType(){
 	$(document).on('change', '#question_qtype', function(){
 		$.get('/challenges/new?type='+$(this).val(), function(data){
-			// alert($(data).find('.choices .fields').eq(0).html());
 			$('#page-content > .container').html(data);
 		});
 	});
@@ -21,37 +20,44 @@ function toggleSingleSelectAnswer(){
 		$(this).prop('checked', 'checked');
 	});
 }
-var page = 1;
+function pageNav(){
+	setActivePager(1);
+	triggerPage();
+	triggerNextPage();
+	triggerPrevPage();
+}
 function triggerPage(){
-	setActivePager(page);
-	console.log($('.pagination li:not(.previous):not(.next)'));
-	$(document).on('click', '.pagination li', function(){
-		var active_page = page;
-		if($(this).hasClass('previous')){
-			if (page > 1){
-				page --;
-			}
-		}else if($(this).hasClass('next')){
-			if(page < $(this).prev().find('a').eq(0).data('page')){
-				page ++;
-			}
-		}else{
-			page = $(this).find('a').eq(0).data('page');
-		}
-		if(page != active_page){
-			// alert(page);
-			setActivePager(page);
-		}
+	$(document).on('click', '.pagination li:not(.previous):not(.next)', function(e){
+		e.preventDefault();
+		var page = $(this).find('a').eq(0).data('page');
+		setActivePager(page);
 	});
 }
 function triggerNextPage(){
-	
+	$(document).on('click','.pagination .next', function(e){
+		e.preventDefault();
+		var maxPage = $(this).prev().find('a').eq(0).data('page');
+		var nextPage = $(this).find('a').eq(0).data('page');
+		if (nextPage <= maxPage){
+			setActivePager(nextPage);
+		}
+		
+	});
 }
 function triggerPrevPage(){
-	
+	$(document).on('click', '.pagination .previous', function(e){
+		e.preventDefault();
+		var prevPage = $(this).find('a').eq(0).data('page');
+		if(prevPage > 0){
+			setActivePager(prevPage);
+		}
+	});
 }
 function setActivePager(activePage){
-	$('.pagination .active').removeClass('active');
+	$('.pagination').find('.active').removeClass('active');
+	$('.pagination .next > a').attr('data-page', activePage + 1);
+	$('.pagination .previous > a').attr('data-page', activePage - 1);
+		
 	$('.pagination').each(function(k, v){
 		$(v).find('ul li').eq(activePage).addClass('active');
 	});
