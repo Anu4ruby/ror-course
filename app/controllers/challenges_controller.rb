@@ -14,7 +14,6 @@ class ChallengesController < ApplicationController
     if @question.save
       redirect_to challenge_path(@question)
     else
-      flash[:notice] = 'failed'
       render 'new'
     end
   end
@@ -27,9 +26,9 @@ class ChallengesController < ApplicationController
   end
   def update
     if @question.update_attributes(params[:question])
-      redirect_to :back, :notice => 'success'
+      redirect_to challenge_path(@question)
     else
-      redirect_to :back, :notice => 'fails: '+(@question.errors.full_messages.first if @question.errors.any?)
+      redirect_to :back
     end
   end
   private

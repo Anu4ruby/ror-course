@@ -3,8 +3,7 @@ class Question < ActiveRecord::Base
   has_many :options
   validates :description, :presence => true, :uniqueness => true
   validates :qtype, :presence => true
-  accepts_nested_attributes_for :options, :allow_destroy => true, 
-            :reject_if => proc { |option| option['content'].blank? }
+  accepts_nested_attributes_for :options, :allow_destroy => true, :reject_if => proc { |option| option['content'].blank? }
   validate :options_duplicated?, :answer_picked?
   def type?(type)
     if qtype.nil? && type == 'text'
@@ -18,18 +17,14 @@ class Question < ActiveRecord::Base
     options.where('selected = ?', true)
   end
   def check_answer
-    {correct: '', total: '', pending: ''}
+    # {correct: '', total: '', pending: ''}
   end
   private
   def answer_picked?
     if type?('multi-select')
-      if !options.any? { |option| option.selected }
-         errors.add(:answer, "at least select 1")
-      end
+      errors.add(:answer, "at least 1 choosen") if !options.any? { |option| option.selected }
     else
-      if options.select{|o| o.selected?}.size != 1
-        errors.add(:answer, "at least select 1")
-      end
+      errors.add(:answer, "needs to be choosen") if options.select{|o| o.selected?}.size != 1
     end
   end
   def options_duplicated?
