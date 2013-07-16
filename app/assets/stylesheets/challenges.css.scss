@@ -1,7 +1,6 @@
 // Place all the styles related to the challenges controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
 .pages{
   counter-reset: item;
 }
@@ -13,7 +12,7 @@
   display: block;
 }
 .page-item{
-  padding: 5px 8px;
+  margin-bottom: 8px;
 }
 .page-item .answer{
   margin-left: 20px;

@@ -18,7 +18,7 @@ describe QuestionMailer do
     # true
   end
   it 'assigned show_ask_url(@question)' do
-    @mail.body.encoded.should =~ /#{show_ask_url(@question)}/
+    @mail.body.encoded.should =~ /#{ask_url(@question)}/
     # true
   end
 end

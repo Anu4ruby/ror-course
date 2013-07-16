@@ -1,18 +1,21 @@
+- pages = number_of_pages(@questions)
+= render 'shared/pagination', :pages => pages
 #title
   %h1 Challenge Questions
 .row-fluid.pages
   = form_tag('/challenges/submit')
-  - pages = (@questions.size/10 + 1).to_i
   .container-fluid.pages
-    = render 'shared/pagination', :pages => pages
     - 1.upto pages do |page|
       .page.row-fluid
         .span10.offset1
           - page_items(@questions, page).each do |item|
-            .page-item
-              .description
+            .page-item.border2
+              - if user_signed_in? && current_user.is_admin?
+                .action.pull-right
+                  = link_to 'Edit', edit_challenge_path(item)
+              .description.span11
                 = item.description
-              .answer
+              .answer.clear
                 - if item.type? 'text'
                   = text_field_tag 'questions[#{item.id}][answer]'
                 - elsif item.type? 'single-select'
@@ -22,5 +25,5 @@
                 - else
                   = 'multi selection'
     = submit_tag 'Submit', :class => 'btn pull-right'
-    = render 'shared/pagination', :pages => pages
+= render 'shared/pagination', :pages => pages
     

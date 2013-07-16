@@ -11,7 +11,7 @@
  *= require_self
  * require_tree .
  */
-
+@import 'border';
 @import "bootstrap";
 // @import "bootstrap-responsive";
 $body-color: skyblue;
@@ -37,14 +37,15 @@ html, body {
   position: relative;
 }
 
-#title{
-  margin-bottom: 60px;
-}
-
 h1 {
   margin-top: 0;
   font-size: 20px;
   line-height: 30px;
+}
+
+#title > h1{
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #footer{
@@ -64,15 +65,4 @@ body{
 }
 #page-content > .container{
   width: 900px;
-}
-
-.box{
-  margin-bottom: 10px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background-color: lightgrey;
-}
-.pagination{
-  clear: both;
 }
