@@ -1,17 +1,12 @@
-.row-fluid
+#title
   %h1 Ask a question
+.row-fluid
   = render 'ask_form'
-.row.clear-fix
-  - @questions.each do |q|
-    .box.span11
-      .row-fluid
-        .label.label-info
-          = q.email + " asked:"
-        .span12
-          = q.description
-      .row-fluid
-        .label.label-success
-          = "Admin answered: "
-        .span12
-          = q.respond
+.row-fluid
+  .span10.offset1
+    - @questions.each do |q|
+      = render 'question', :question => q
+.row-fluid      
+  .span10.offset1
+    = link_to 'Load More', 'javascript:void(0)', :class => 'btn span12', :id => 'loadmore'
     

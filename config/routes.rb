@@ -12,7 +12,9 @@ RorCourse::Application.routes.draw do
   match 'ask' => 'VisitorQuestions#create', :via => [:post]
   match 'ask/:id' => 'VisitorQuestions#show', :via => [:get], :as => 'show_ask'
   resources :challenges do
-    
+    collection do
+      post 'submit', :action => 'check_answers'
+    end
   end
   
   resources :questions, path:'challenges' do

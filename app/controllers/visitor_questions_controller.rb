@@ -1,4 +1,5 @@
 class VisitorQuestionsController < ApplicationController
+  before_filter :authorize_user!, :except => [:ask]
   def ask
     @question = VisitorQuestion.new
     @questions = VisitorQuestion.responded

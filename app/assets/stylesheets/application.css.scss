@@ -9,34 +9,36 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *=exp_list.css
- *=message.css
- *= require_tree .
+ * require_tree .
  */
 
 @import "bootstrap";
-@import "bootstrap-responsive";
-
+// @import "bootstrap-responsive";
+$body-color: skyblue;
+$content-color: white;
 html, body {
   height: 100%;
 }
 
 #content {
   min-height: 100%;
+  padding: 0 10px;
+  background-color: $content-color
 }
 
 .navbar {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 #page-content {
   padding-bottom: 48px;  /* must be same height as the footer */
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
 }
 
-.session {
-  position: relative;
-  z-index: 1000;
-  margin-bottom: -24px;
+#title{
+  margin-bottom: 60px;
 }
 
 h1 {
@@ -49,6 +51,28 @@ h1 {
   position: relative;
   height: 48px;
   margin-top: -48px; /* negative value of footer height */
-
+  padding-right: 20px;
   text-align: right;
+}
+
+body{
+  background-color: $body-color;
+}
+
+.noresize{
+  resize: none;
+}
+#page-content > .container{
+  width: 900px;
+}
+
+.box{
+  margin-bottom: 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: lightgrey;
+}
+.pagination{
+  clear: both;
 }

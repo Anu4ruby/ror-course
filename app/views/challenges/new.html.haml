@@ -1,3 +1,5 @@
-.row-fluid.form
+#title
   %h1 New challenge questions
+  = render 'shared/error_msg_list', :object => @question
+.row-fluid
   = render 'form'

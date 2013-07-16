@@ -12,7 +12,8 @@ module ChallengesHelper
     end
     question
   end
+  
   def question_types
-    return [['Free Text', 'text'],['Single Select', 'single-select'],['Multi Select', 'multi-select']]
+    [['Free Text', 'text'],['Single Select', 'single-select'],['Multi Select', 'multi-select']]
   end
 end

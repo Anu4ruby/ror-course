@@ -1,7 +1,9 @@
 class ChallengesController < ApplicationController
   before_filter :get_question, :only => [:show, :edit, :update]
+  before_filter :authorize_user!, :except => [:index]
+  
   def index
-    
+    @questions = Question.all
   end
   def new
     @question = Question.new(qtype:params[:type]) 
@@ -10,9 +12,8 @@ class ChallengesController < ApplicationController
   def create
     @question = Question.create(params[:question])
     if @question.save
-      redirect_to challenge_path(@question), :notice => 'created'
+      redirect_to challenge_path(@question)
     else
-      flash[:notice] = 'failed'
       render 'new'
     end
   end
@@ -20,11 +21,14 @@ class ChallengesController < ApplicationController
   end
   def edit
   end
+  def check_answers
+    
+  end
   def update
     if @question.update_attributes(params[:question])
-      redirect_to :back, :notice => 'success'
+      redirect_to challenge_path(@question)
     else
-      redirect_to :back, :notice => 'fails: '+(@question.errors.full_messages.first if @question.errors.any?)
+      redirect_to :back
     end
   end
   private

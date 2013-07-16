@@ -1,6 +1,41 @@
 // Place all the styles related to the challenges controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.choices label{
-  display: inline-block;
+
+.pages{
+  counter-reset: item;
+}
+.pages .page{
+  display: none;
+  min-height: 800px;
+}
+.pages .page.active{
+  display: block;
+}
+.page-item{
+  padding: 5px 8px;
+}
+.page-item .answer{
+  margin-left: 20px;
+  counter-reset: choice
+}
+.page-item .answer .choice:before{
+  counter-increment: choice;
+  content: counter(choice, lower-latin) '. ';
+}
+.description:before{
+  counter-increment: item;
+  content: counter(item) ". ";
+}
+
+.choices .fields input[type=radio],.choices .fields input[type=checkbox]{
+  min-height: 24px;
+  width: 32px;
+}
+.choices .span-static{
+  width: 450px;
+}
+
+.choices .fields{
+  padding-bottom: 4px;
 }

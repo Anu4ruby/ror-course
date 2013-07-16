@@ -1,6 +1,7 @@
-= form_for @question, :url => respond_ask_path(@question), class: 'form-horizontal span8' do |f|
+= form_for @question, :url => respond_ask_path(@question) do |f|
   .control-group
     = f.label :respond, 'Respond:'
-    = f.text_area :respond
+    .controls
+      = f.text_area :respond, :rows => '5', :class => 'noresize span12'
   .control-group
-    = f.submit 'Respond'
+    = f.submit 'Respond', :class => 'btn'
