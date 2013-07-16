@@ -1,10 +1,12 @@
 class VisitorQuestionsController < ApplicationController
-  before_filter :authorize_user!, :except => [:ask]
+  before_filter :authorize_user!, :except => [:ask, :page]
+
   def ask
     @question = VisitorQuestion.new
-    @questions = VisitorQuestion.responded.last(10).reverse
+    @questions = VisitorQuestion.responded.first(10)
     # render :partial => 'ask_form'
   end
+
   def create
     @question = VisitorQuestion.new(params[:visitor_question])
     if @question.save
@@ -14,15 +16,19 @@ class VisitorQuestionsController < ApplicationController
     end
     redirect_to :back, :notice => msg
   end
+
   def show
     @question = VisitorQuestion.find(params[:id])
   end
+
   def not_respond
     @questions = VisitorQuestion.not_respond
   end
+
   def respond
     @question = VisitorQuestion.find(params[:id])
   end
+
   def responded
     @question = VisitorQuestion.find(params[:id])
     respond = params[:visitor_question][:respond]
@@ -33,6 +39,12 @@ class VisitorQuestionsController < ApplicationController
     else
       redirect_to :back, :notice => 'Respond text too short'
     end
-    
   end
+
+  def page
+    offset = 10*(params[:number].to_i-1)
+    @questions = VisitorQuestion.responded.limit(10).offset(offset)
+    ajax_no_layout
+  end
+  
 end

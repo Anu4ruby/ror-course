@@ -4,6 +4,6 @@ class VisitorQuestion < ActiveRecord::Base
   validates :description, :presence => true, :uniqueness => true
   validates :respond, :length => {:minimum => 2}, :allow_blank => true
   scope :not_respond, where(:respond => nil)
-  scope :responded, where("respond !='' AND respond is not null")
+  scope :responded, where("respond !='' AND respond is not null").order('updated_at DESC')
 end
 

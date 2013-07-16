@@ -13,7 +13,7 @@ RorCourse::Application.routes.draw do
     end
     collection do
       get 'pending', :as => 'not_respond', :action => 'not_respond'
-      get 'page'
+      get 'page/:number', :action => 'page'
     end
   end
   match 'asks' => 'visitor_questions#ask', :via => [:get], :as => 'asks'
