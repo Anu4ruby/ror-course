@@ -16,4 +16,7 @@ module ApplicationHelper
       []
     end
   end
+  def number_of_pages(collection, page_size = 10)
+    (collection.size/10 + 1).to_i
+  end
 end

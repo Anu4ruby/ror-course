@@ -1,4 +1,4 @@
-= nested_form_for(setup_question(@question), html: { class: 'form-horizontal span10' }) do |f|
+= nested_form_for setup_question(@question) do |f|
   .control-group
     = f.label :qtype, 'Type', class: 'control-label'
     .controls

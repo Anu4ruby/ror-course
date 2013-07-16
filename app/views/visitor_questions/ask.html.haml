@@ -1,12 +1,14 @@
 #title
   %h1 Ask a question
 .row-fluid
-  = render 'ask_form'
+  .form-horizontal.span11
+    .border2
+      = render 'ask_form'
 .row-fluid
-  .span10.offset1
-    - @questions.each do |q|
-      = render 'question', :question => q
-.row-fluid      
-  .span10.offset1
-    = link_to 'Load More', 'javascript:void(0)', :class => 'btn span12', :id => 'loadmore'
+  .span10.offset1#questions
+    = render :partial => 'visitor_questions/question', :collection => @questions
+- if @questions.size > 0
+  .row-fluid      
+    .span10.offset1
+      = link_to 'Load More', 'javascript:void(0)', :class => 'btn span12', :id => 'loadmore'
     

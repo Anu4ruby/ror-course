@@ -1,5 +1,6 @@
 #title
   %h1 Edit Question
-  = render 'shared/error_msg_list', :object => @question
+= render 'shared/error_msg_list', :object => @question
 .row-fluid
-  = render 'form'
+  .form-horizontal.span10
+    = render 'form'

@@ -1,0 +1,58 @@
+$radius: 20px;
+@mixin radius-base($radius){
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+          border-radius: $radius;
+}
+@mixin radius-top($radius){
+  -webkit-border-top-left-radius: $radius;
+  -moz-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+  -webkit-border-top-right-radius: $radius;
+  -moz-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+@mixin radius-bottom($radius){
+  -webkit-border-bottom-left-radius: $radius;
+  -moz-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+  -webkit-border-bottom-right-radius: $radius;
+  -moz-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+@mixin border-base($radius){
+  border: 1px solid black;
+  clear: both;
+  padding: 10px 20px;
+}
+.border1{
+  @include border-base($radius);
+  @include radius-base($radius);
+}
+.border2{
+  @include border-base($radius/2);
+  @include radius-base($radius/2);
+}
+.clear{
+  clear: both;
+}
+.form-horizontal [class*='border']{
+  margin-left: 80px;
+  margin-bottom: 10px;
+}
+.form-horizontal [class*='border'] .control-label{
+  width: 110px;
+}
+.form-horizontal [class*='border'] .controls{
+  margin-left: 120px;
+}
+
+.box{
+  margin-bottom: 10px;
+  background-color: lightgrey;
+  @include radius-base(3px);
+}
+.border-top{
+  @include radius-base($radius);
+  @include radius-top(5px);
+}
