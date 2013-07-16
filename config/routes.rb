@@ -5,19 +5,26 @@ RorCourse::Application.routes.draw do
   match 'home/ror' => 'home#ror'
   
   devise_for :users
-  match 'ask/respond' => 'VisitorQuestions#not_respond', :via => [:get], :as => 'not_respond_ask'
-  match 'ask/:id/respond' => 'VisitorQuestions#respond', :via => [:get], :as => 'respond_ask'
-  match 'ask/:id/respond' => 'VisitorQuestions#responded', :via => [:post, :put]
-  match 'ask' => 'VisitorQuestions#ask', :via => [:get], :as => 'ask'
-  match 'ask' => 'VisitorQuestions#create', :via => [:post]
-  match 'ask/:id' => 'VisitorQuestions#show', :via => [:get], :as => 'show_ask'
+    
+  resources :visitor_questions, :path => 'asks', :as => 'asks', :only => [:create, :show] do
+    member do
+      get 'respond'
+      put 'respond', :action => 'responded'
+    end
+    collection do
+      get 'pending', :as => 'not_respond', :action => 'not_respond'
+      get 'page'
+    end
+  end
+  match 'asks' => 'visitor_questions#ask', :via => [:get], :as => 'asks'
+  
   resources :challenges do
     collection do
       post 'submit', :action => 'check_answers'
     end
   end
   
-  resources :questions, path:'challenges' do
+  resources :questions, :path => 'challenges' do
     
   end
   # The priority is based upon order of creation:
