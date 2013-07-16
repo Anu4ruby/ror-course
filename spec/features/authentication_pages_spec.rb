@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-require 'database_cleaner'
-
 include Warden::Test::Helpers
 
 describe "Authentication" do
@@ -27,8 +25,6 @@ describe "Authentication" do
 
         login_as(@user)
         it { should_not have_selector('.alert', text: "sign in first") }
-
-        DatabaseCleaner.clean
 
       end
 
