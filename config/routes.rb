@@ -16,7 +16,7 @@ RorCourse::Application.routes.draw do
       get 'page/:number', :action => 'page'
     end
   end
-  match 'asks' => 'visitor_questions#ask', :via => [:get], :as => 'asks'
+  match 'asks' => 'visitor_questions#ask', :via => [:get], :as => 'ask'
   
   resources :challenges do
     collection do
