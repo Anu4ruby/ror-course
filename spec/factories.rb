@@ -1,6 +1,11 @@
 FactoryGirl.define do
+  factory :user do
+    email "user@example.com"
+    password "password"
+  end
+
   factory :question do
-    sequence :description do |n| 
+    sequence :description do |n|
        "challenge question #{n}"
     end
     factory :text_question do
@@ -45,17 +50,17 @@ FactoryGirl.define do
       end
     end
   end
-  
-  
+
+
   factory :option do
     question
     sequence :content do |n|
       "content #{n}"
     end
   end
-  
+
   factory :visitor_question do
-    sequence :description do |n| 
+    sequence :description do |n|
       "question ask \##{n}"
     end
     sequence :email do |n|
