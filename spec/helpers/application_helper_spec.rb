@@ -8,6 +8,7 @@ describe ApplicationHelper do
       asset_exist?(Time.now.to_time.to_i.to_s + '.js').should == false
     end
   end
+  
   context 'get page_items' do
     before(:all) do
       @collection = (1..105).to_a
@@ -26,6 +27,12 @@ describe ApplicationHelper do
     end
     it 'should return [] for page 12 which is > max page' do
       page_items(@collection, 12).should == []
+    end
+  end
+  
+  context 'number of pages' do 
+    it 'should return at least 1' do
+      number_of_pages([]).should_not <= 0
     end
   end
 end

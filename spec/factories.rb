@@ -1,7 +1,13 @@
 FactoryGirl.define do
   factory :user do
-    email "user@example.com"
+    sequence :email do |n|
+      "user#{n}@example.com"
+    end
     password "password"
+    factory :admin do
+      is_admin true
+      confirmed_at Time.now
+    end
   end
 
   factory :question do
