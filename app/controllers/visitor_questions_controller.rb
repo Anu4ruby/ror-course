@@ -1,10 +1,9 @@
 class VisitorQuestionsController < ApplicationController
-  before_filter :authorize_user!, :except => [:ask, :page]
-
-  def ask
+  before_filter :authorize_user!, :only => [:not_respond, :respond, :responded]
+  
+  def index
     @question = VisitorQuestion.new
     @questions = VisitorQuestion.responded.first(10)
-    # render :partial => 'ask_form'
   end
 
   def create

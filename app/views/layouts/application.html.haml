@@ -16,10 +16,7 @@
     <![endif]-->
   %body
     #content.container
-      - if user_signed_in? && current_user.is_admin?
-        = render 'shared/admin/nav'
-      - else
-        = render 'shared/nav'
+      = render 'shared/nav'
       #page-content
         .text-right
           = render :partial => 'shared/session'

@@ -1,24 +1,16 @@
-.navbar.navbar-inverse
-  .navbar-inner
-    .container
-      = link_to "RoR Course", root_path, class: "brand"
-      %ul.nav
-        %li
-          = link_to 'Home', root_url
-        %li
-          = link_to 'Course -Ruby on Rails',    contents_path
-        %li.dropdown
-          = link_to 'Take a quick Ruby challenge', '#', :class => 'dropdown-toggle', :data => {:toggle => 'dropdown'}, :title => 'Click to see more options'
-          %ul.dropdown-menu
-            %li
-              = link_to 'Challenges', challenges_path
-            %li
-              = link_to 'New', new_challenge_path
-        %li.dropdown
-          = link_to 'Ask a question', '#', :class => 'dropdown-toggle', :data => {:toggle => 'dropdown'}, :title => 'Click to see more options'
-          %ul.dropdown-menu
-            %li
-              = link_to 'Ask', asks_path
-            %li
-              = link_to 'Pending', not_respond_asks_path
-        
+%li
+  = link_to 'Course -Ruby on Rails',    contents_path
+%li.dropdown
+  = link_to 'Take a quick Ruby challenge', '#', :class => 'dropdown-toggle', :data => {:toggle => 'dropdown'}, :title => 'Click to see more options'
+  %ul.dropdown-menu
+    %li
+      = link_to 'Challenges', challenges_path
+    %li
+      = link_to 'New', new_challenge_path
+%li.dropdown
+  = link_to 'Ask a question', '#', :class => 'dropdown-toggle', :data => {:toggle => 'dropdown'}, :title => 'Click to see more options'
+  %ul.dropdown-menu
+    %li
+      = link_to 'Ask', asks_path
+    %li
+      = link_to 'Pending', not_respond_asks_path
