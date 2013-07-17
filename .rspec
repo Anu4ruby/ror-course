@@ -1,1 +1,2 @@
---color
+-c -f h -o tmp/rspec.html
+-f p
