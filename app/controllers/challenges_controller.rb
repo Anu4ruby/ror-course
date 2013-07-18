@@ -10,11 +10,11 @@ class ChallengesController < ApplicationController
     ajax_no_layout
   end
   def create
-    @question = Question.create(params[:question])
+    @question = Question.new(params[:question])
     if @question.save
       redirect_to challenge_path(@question)
     else
-      render 'new'
+      render 'new', :status => 422
     end
   end
   def show

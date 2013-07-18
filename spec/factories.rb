@@ -20,26 +20,27 @@ FactoryGirl.define do
       ignore do
         options_count 1
       end
-      before(:create) do |question, evaluator|
-        # FactoryGirl.create_list(:option, evaluator.options_count, :question => question, :selected => true)
-        (evaluator.options_count).times{ question.options.build(attributes_for(:option, :selected => true)) }
-      end
-      # after(:build) do |question, evaluator|
-        # (evaluator.options_count).times{question.options.new(attributes_for(:option, :selected => true))}
+      # before(:create) do |question, evaluator|
+        # # FactoryGirl.create_list(:option, evaluator.options_count, :question => question, :selected => true)
+        # (evaluator.options_count).times{ question.options.build(attributes_for(:option, :selected => true)) }
       # end
+      after(:build) do |question, evaluator|
+        (evaluator.options_count).times{ question.options.build(attributes_for(:option, :selected => true))}
+      end
     end
     factory :single_select_question do
       qtype 'single-select'
       ignore do
         options_count 5
       end
-      before(:create) do |question, evaluator|
+      # before(:create) do |question, evaluator|
+        # question.options.build(attributes_for(:option, :selected => true))
+        # (evaluator.options_count-1).times{ question.options.build(attributes_for(:option)) }
+      # end
+      # create goes after build, therefore after(:build) is better choice
+      after(:build) do |question, evaluator|
         question.options.build(attributes_for(:option, :selected => true))
         (evaluator.options_count-1).times{ question.options.build(attributes_for(:option)) }
-      end
-      after(:build) do |question, evaluator|
-        # FactoryGirl.build_list(:option, evaluator.options_count, :question => question, :selected => true)
-        (evaluator.options_count).times{question.options.new(attributes_for(:option))}
       end
     end
     factory :multi_select_question do
@@ -47,13 +48,13 @@ FactoryGirl.define do
       ignore do
         options_count 5
       end
-      before(:create) do |question, evaluator|
+      # before(:create) do |question, evaluator|
+        # question.options.build(attributes_for(:option, :selected => true))
+        # (evaluator.options_count-1).times{ question.options.build(attributes_for(:option)) }
+      # end
+      after(:build) do |question, evaluator|
         question.options.build(attributes_for(:option, :selected => true))
         (evaluator.options_count-1).times{ question.options.build(attributes_for(:option)) }
-      end
-      after(:build) do |question, evaluator|
-        # FactoryGirl.build_list(:option, evaluator.options_count, :question => question, :selected => true)
-        (evaluator.options_count).times{question.options.new(attributes_for(:option))}
       end
     end
   end
@@ -62,7 +63,7 @@ FactoryGirl.define do
   factory :option do
     question
     sequence :content do |n|
-      "content #{n}"
+      "option content #{n}"
     end
   end
 
