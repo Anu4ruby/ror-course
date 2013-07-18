@@ -12,7 +12,8 @@
             .page-item.border2
               - if user_signed_in? && current_user.is_admin?
                 .action.pull-right
-                  = link_to 'Edit', edit_challenge_path(item)
+                  .btn
+                    = link_to '', edit_challenge_path(item), :class => 'icon-edit', :title => 'Edit'
               .description.span11
                 = item.description
               .answer.clear
