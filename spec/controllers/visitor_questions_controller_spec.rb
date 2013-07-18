@@ -60,6 +60,18 @@ describe VisitorQuestionsController do
       
     end
     
+    describe 'GET page' do
+      it 'is ajax call' do
+        xhr :get, :page, :number => 1
+        @layouts.keys.should == [nil]
+      end
+      it 'is web url call' do
+        get :page, :number => 1
+        @layouts.keys.should_not == [nil]
+        response.should render_template(:page)
+      end
+      
+    end
   end
   
   describe 'admin' do
@@ -67,15 +79,15 @@ describe VisitorQuestionsController do
     before(:each) do
       admin = FactoryGirl.create(:admin)
       set_user(admin)
-      get :not_respond
     end
     
     describe 'GET not_respond/pending' do
       
-      before(:all) do
+      before(:each) do
         qs = []
         5.times{qs << FactoryGirl.create(:visitor_question)}
         3.times{ FactoryGirl.create(:responded_visitor_question) }
+        get :not_respond
       end
       
       it 'should has all the questions without responded' do
@@ -85,7 +97,54 @@ describe VisitorQuestionsController do
       end 
       
     end
+    describe 'GET respond' do
+      before(:each) do
+        @q = FactoryGirl.create(:visitor_question)
+        get :respond, :id => @q.id
+      end
       
+      it 'shows the respond page' do
+        assigns(:question).should == @q
+      end
+    end
+    
+    describe 'POST responded' do
+      before(:each) do
+        @q = FactoryGirl.create(:visitor_question)
+      end
+      describe 'update respond success' do
+        before(:each) do
+          post :responded, :id => @q.id, :visitor_question => {:respond => 'answered'}
+        end
+        
+        it 'should go pending page' do
+          response.should redirect_to not_respond_asks_url
+        end
+        
+        it 'should notice with message "Question answered"' do
+          flash[:notice].should have_content 'Question answered'
+        end
+        
+      end
+      
+      describe 'update respond fails' do
+        before(:each) do
+          request.env["HTTP_REFERER"] = respond_ask_url(@q)
+          post :responded, :id => @q.id, :visitor_question => {:respond => ''}
+        end
+        
+        it 'should go back' do
+          response.should redirect_to :back
+        end
+        
+        it 'should notice with message "Respond text too short"' do
+          flash[:notice].should have_content 'Respond text too short'
+        end
+        
+        
+      end
+      
+    end
   end
     
   describe 'regular user' do

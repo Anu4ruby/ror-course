@@ -24,7 +24,7 @@ describe "Authorization" do
         @user = FactoryGirl.create(:user)
         login_as(@user)
         visit home_ror_path
-        save_and_open_page
+        # save_and_open_page
       end
 
       describe "as a regular user" do
