@@ -9,3 +9,9 @@
   counter-increment: item;
   content: counter(item) ". ";
 }
+.form-horizontal #new_visitor_question .control-label{
+  width: 70px;
+}
+.form-horizontal #new_visitor_question .controls{
+  margin-left: 80px;
+}
