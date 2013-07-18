@@ -77,8 +77,7 @@ describe VisitorQuestionsController do
   describe 'admin' do
     
     before(:each) do
-      admin = FactoryGirl.create(:admin)
-      set_user(admin)
+      login_admin
     end
     
     describe 'GET not_respond/pending' do
@@ -98,13 +97,14 @@ describe VisitorQuestionsController do
       
     end
     describe 'GET respond' do
+      # check with valid id and without
       before(:each) do
         @q = FactoryGirl.create(:visitor_question)
         get :respond, :id => @q.id
       end
       
       it 'shows the respond page' do
-        assigns(:question).should == @q
+        response.should render_template :respond
       end
     end
     
@@ -150,8 +150,7 @@ describe VisitorQuestionsController do
   describe 'regular user' do
     
     before(:each) do
-      user = FactoryGirl.create(:user)
-      set_user(user)
+      login_user
     end
     
     describe 'GET not_respond/pending' do

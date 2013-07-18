@@ -2,15 +2,15 @@ module TestHelper
   # for login user
   def set_user(user=nil)
     if !user.nil?
-      controller.stub(:current_user).and_return(user)
-      controller.stub(:user_signed_in?).and_return(true)  
+      set_current_user(user)
+      set_user_signed_in(true)  
     else
-      controller.stub(:user_signed_in?).and_return(false)
+      set_user_signed_in(false)
     end
   end
   def clear_user
-    controller.stub(:current_user).and_return(nil)
-    controller.stub(:user_signed_in?).and_return(false)
+    set_current_user(nil)
+    set_user_signed_in
   end
   
   #login alternative
@@ -24,15 +24,25 @@ module TestHelper
     set_user(admin)
     admin
   end
-  #login best way, not tested
-  def has_user
-    user = FactoryGirl.create(:user)
-    should_receive(:current_user).and_return(user)
-    should_receive(:user_signed_in?).and_return(true)
+  
+  def set_current_user(user)
+    controller.stub(:current_user).and_return(user)
+    # controller.should_receive(:current_user).at_least(0).times.and_return(user)
   end
-  def has_admin
-    admin = FactoryGirl.create(:admin)
-    should_receive(:current_user).and_return(admin)
-    should_receive(:user_signed_in?).and_return(true)
+  def set_user_signed_in(confirm=false)
+    controller.stub(:user_signed_in?).and_return(confirm)
+    # controller.should_receive(:user_signed_in).at_least(0).times.and_return(confirm)
   end
+  
+  # thest code works if it states in spec file
+  #   let(:current_user){FactoryGirl.create(:admin)}
+  #   let(:user_signed_in?){return true}
+  #   # if not concern of using current_user and user_signed_in, ignore above  
+  #   before(:each) do
+  #     controller.should_receive(:authorize_user!).at_least(0).times.and_return(nil)
+  #   end
+  def pass_authorize
+    controller.should_receive(:authorize_user!).at_least(0).times.and_return(nil)
+  end
+    
 end
