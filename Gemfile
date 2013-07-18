@@ -16,6 +16,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'             # for writing specs
   gem 'sqlite3'
+  gem 'launchy'
 end
 
 group :development do

@@ -250,6 +250,7 @@ DEPENDENCIES
   haml
   heroku
   jquery-rails
+  launchy
   nested_form
   pg
   rails (= 3.2.13)
