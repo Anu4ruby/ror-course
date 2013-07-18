@@ -1,14 +1,14 @@
 function prepareList() {
-    $('#expList').find('li:has(ul)')
+    $('#expList').find('li:has(ol)')
     .click( function(event) {
         if (this == event.target) {
             $(this).toggleClass('expanded');
-            $(this).children('ul').toggle('medium');
+            $(this).children('ol').toggle('medium');
         }
         return false;
     })
     .addClass('collapsed')
-    .children('ul').hide();
+    .children('ol').hide();
 };
  
 $(document).ready( function() {

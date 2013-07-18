@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require exp_list
  * require_tree .
  */
 @import 'border';
@@ -23,10 +24,13 @@ html, body {
 #content {
   min-height: 100%;
   padding: 0 10px;
-  background-color: $content-color
+  background-color: $content-color   
+
 }
 
-.navbar {
+
+
+ .navbar {
   padding-top: 10px;
 }
 
@@ -46,6 +50,7 @@ h1 {
 #title > h1{
   margin-top: 20px;
   margin-bottom: 20px;
+
 }
 
 #footer{
@@ -65,4 +70,11 @@ body{
 }
 #page-content > .container{
   width: 900px;
+}
+
+.fields{
+
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
