@@ -4,7 +4,7 @@ class HomeController < ApplicationController
     end
 
     def ror
-         render "ror_content"
+      render "ror_content"
     end
 
     # def edit

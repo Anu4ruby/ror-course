@@ -93,3 +93,7 @@ def set_user(user=nil)
     controller.stub(:user_signed_in?).and_return(false)
   end
 end
+def clear_user
+  controller.stub(:current_user).and_return(nil)
+  controller.stub(:user_signed_in?).and_return(false)
+end
