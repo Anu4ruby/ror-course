@@ -10,6 +10,11 @@ FactoryGirl.define do
     end
   end
 
+  factory :admin do
+    email "admin@example.com"
+    password "password"
+  end
+
   factory :question do
     sequence :description do |n|
        "challenge question #{n}"
