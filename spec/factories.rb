@@ -4,15 +4,11 @@ FactoryGirl.define do
       "user#{n}@example.com"
     end
     password "password"
+    confirmed_at Time.now
+    
     factory :admin do
       is_admin true
-      confirmed_at Time.now
     end
-  end
-
-  factory :admin do
-    email "admin@example.com"
-    password "password"
   end
 
   factory :question do
