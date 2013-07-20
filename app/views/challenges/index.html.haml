@@ -14,17 +14,11 @@
                 .action.pull-right
                   .btn
                     = link_to '', edit_challenge_path(item), :class => 'icon-edit', :title => 'Edit'
+              .item-idx
               .description.span11
                 = item.description
               .answer.clear
-                - if item.type? 'text'
-                  = text_field_tag 'questions[#{item.id}][answer]'
-                - elsif item.type? 'single-select'
-                  - item.options.each do |choice|
-                    .choice
-                      = choice.content 
-                - else
-                  = 'multi selection'
+                = render 'set_answer_input', :question => item
     = submit_tag 'Submit', :class => 'btn pull-right'
 = render 'shared/pagination', :pages => pages
     
