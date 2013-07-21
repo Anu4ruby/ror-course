@@ -7,7 +7,7 @@ RorCourse::Application.routes.draw do
     
   resources :challenges do
     collection do
-      post 'submit', :action => 'check_answers'
+      post 'submit', :action => 'result'
     end
   end
   

@@ -1,12 +1,12 @@
 - if question.type? 'text'
-  = text_field_tag "answers[#{question.id}][content]", '', :class => 'span11'
+  = text_field_tag "answers[#{question.id}][]", '', :class => 'span11'
 - else
   - question.options.each do |choice|
     .choice.row-fluid
       .choice-select.span1
         - if question.type? 'single-select'
-          = radio_button_tag "answers[#{question.id}][content]", choice.content
+          = radio_button_tag "answers[#{question.id}][]", choice.content
         - else
-          = check_box_tag "answers[#{question.id}][content][]", choice.content
+          = check_box_tag "answers[#{question.id}][]", choice.content
       .choice-content.span10
         = choice.content 

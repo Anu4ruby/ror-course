@@ -22,8 +22,7 @@ class ChallengesController < ApplicationController
   def edit
   end
   def result
-    text = '' << puts(params[:questions].to_yaml)
-    render :text => params[:questions].to_yaml
+    @answers = params[:answers]
   end
   def update
     if @question.update_attributes(params[:question])
