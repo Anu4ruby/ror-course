@@ -1,10 +1,13 @@
 %p#notice= notice
 %p
-  %b Course Content:
+  %b Course Contents:
   = @content.content.html_safe
 
-- if can? :manage @content  
-  = link_to 'Edit', edit_content_path(@content)
-
-|
-\#{link_to 'Back', contents_path}
+- if can? :update, @content
+  = link_to 'Edit', edit_content_path(@content) 
+  | 
+  
+= link_to 'Back', contents_path
+%br/
+%br/
+= render 'display'

@@ -1,12 +1,17 @@
 #title
-  %h1 Contents
+  %h1 Course Contents
 %table
   %tr
-    %td content      
+    / %td content      
   - @contents.each do |content|  
     %tr
       %td= content.content.html_safe  
-= link_to 'Edit', edit_content_path(@contents)
-|
-\#{link_to 'Back', contents_path}
 
+- if can? :update, @content
+  = link_to 'Edit', edit_content_path(@contents) 
+  | 
+  
+= link_to 'Back', contents_path
+%br/
+%br/
+= render 'display'
