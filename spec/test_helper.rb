@@ -34,7 +34,7 @@ module TestHelper
     # controller.should_receive(:user_signed_in).at_least(0).times.and_return(confirm)
   end
   
-  # thest code works if it states in spec file
+  # these code works if it states in spec file
   #   let(:current_user){FactoryGirl.create(:admin)}
   #   let(:user_signed_in?){return true}
   #   # if not concern of using current_user and user_signed_in, ignore above  

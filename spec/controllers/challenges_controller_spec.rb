@@ -16,6 +16,7 @@ describe ChallengesController do
       @q = FactoryGirl.create(:text_question)
     end
     describe 'as an admin' do
+
       before(:each) do
         @admin = login_admin
       end
@@ -145,6 +146,10 @@ describe ChallengesController do
         end
       end
       
+      describe 'POST check_answer' do
+        
+      end
+      
     end
     
     context 'as a reqular user' do
@@ -184,6 +189,7 @@ describe ChallengesController do
         redirect_login
       end
     end
+
   end
 
 end

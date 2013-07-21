@@ -1,78 +1,112 @@
 require 'spec_helper'
 
 describe Question do
-  context 'check type' do
-    before(:each) do
-      @questions = []
-    end
-    it 'should match type "text"' do
-      q1 = Question.new(:qtype => 'text')
-      q2 = Question.new
-      q1.type?('text').should be true
-      q2.type?('text').should be true
-    end
-    it 'should match type "multi-select"' do
-      q1 = Question.new(:qtype => 'multi-select')
-      q1.type?('multi-select').should be true
-    end
-    it 'should match type "single-select"' do
-      q1 = Question.new(:qtype => 'single-select')
-      q1.type?('single-select').should be true
-    end
-    it 'should not match type "text"' do
-      @questions << Question.new(:qtype => 'multi-select')
-      @questions << Question.new(:qtype => 'single-select')
-      @questions.each do |question|
-        question.type?('text').should_not be true
+  describe 'check type' do
+    describe 'type should be match' do
+      before(:each) do
+        @question = Question.new
       end
-    end
-    it 'should not match type "multi-select"' do
-      @questions << Question.new(:qtype => 'single-select')
-      @questions << Question.new(:qtype => 'text')
-      @questions << Question.new
-      @questions.each do |question|
-        question.type?('multi-select').should_not be true
+      
+      it 'empty recored' do
+        @question.qtype.should be_nil
+        @question.type?('text').should be_true
       end
-    end
-    it 'should not match type "single-text"' do
-      @questions << Question.new(:qtype => 'multi-select')
-      @questions << Question.new(:qtype => 'text')
-      @questions << Question.new
-      @questions.each do |question|
-        question.type?('single-text').should_not be true
+      
+      it 'assigns to text' do
+        type = 'text'
+        @question.qtype = type
+        @question.type?(type).should be_true
       end
-    end
-  end
-  context 'get answer(s)' do
-    context 'type text' do
-      it 'should be match' do
-        q = FactoryGirl.create(:text_question)
-        q.answers.to_a.should == Array(q.options)
-        # true
+      
+      it 'assigns to single-select' do
+        type = 'single-select'
+        @question.qtype = type
+        @question.type?(type).should be_true
       end
-      it 'should not match' do
-        true
+      
+      it 'assigns to multi-select' do
+        type = 'multi-select'
+        @question.qtype = type
+        @question.type?(type).should be_true
       end
+      
     end
-    context 'type single select' do
-      it 'should be match' do
-        q = FactoryGirl.build(:single_select_question)
-        q.options.first.selected = true
-        q.save
-        q.answers.to_a.should == Array(q.options.first)
-        # true 
+    describe 'should not match' do
+      before(:each) do
+        @questions = [Question.new,
+                      FactoryGirl.build(:text_question),
+                      FactoryGirl.build(:single_select_question),
+                      FactoryGirl.build(:multi_select_question)]
       end
-    end
-    context 'type multi select' do
-      it 'should be match' do
-        q = FactoryGirl.build(:multi_select_question)
-        q.options.first(2).each do |opt|
-          opt.selected = true
+      it 'text' do
+        @questions.delete_if{|q| q.type? 'text'}
+        @questions.each do |question|
+          question.type?('text').should_not be true
         end
-        q.save
-        q.answers.to_a.should == q.options.first(2)
+      end
+      it 'single-select' do
+        @questions.delete_if{|q| q.type? 'single-select'}
+        @questions.each do |question|
+          question.type?('single-select').should_not be true
+        end
+      end
+      it 'multi-select' do
+        @questions.delete_if{|q| q.type? 'text'}
+        @questions.each do |question|
+          question.type?('multi-slect').should_not be true
+        end
       end
     end
     
   end
+  context 'get answer(s)' do
+    it 'for type text works' do
+      q = FactoryGirl.create(:text_question)
+      q.answers.to_a.should == q.options
+    end
+    
+    it 'for type single select works' do
+      q = FactoryGirl.create(:single_select_question)
+      q.answers.should == [q.options.first]
+    end
+    
+    it 'for type multi select works' do
+      q = FactoryGirl.build(:multi_select_question)
+      q.options.first(2).each do |opt|
+        opt.selected = true
+      end
+      q.save
+      q.answers.to_a.should == q.options.first(2)
+    end
+    
+  end
+  
+  context 'check_answer' do
+    before(:all) do
+      @questions = [FactoryGirl.create(:text_question),
+                    FactoryGirl.create(:single_select_question),
+                    FactoryGirl.create(:multi_select_question)]
+    end
+    context 'should match' do
+      it 'for text question' do
+        q = @questions[0] 
+        q.check_answer(q.answers).should be_true
+      end
+      
+      it 'for single-select question' do
+        q = @questions[0] 
+        q.check_answer(q.answers).should be_true
+      end
+      
+      it 'for text question' do
+        q = @questions[0] 
+        q.check_answer(q.answers).should be_true
+      end
+      
+    end
+    context 'should not match' do
+      
+    end
+  end
+  
 end

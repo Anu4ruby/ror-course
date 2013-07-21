@@ -1,6 +1,6 @@
 class ChallengesController < ApplicationController
   before_filter :get_question, :only => [:show, :edit, :update]
-  before_filter :authorize_user!, :except => [:index]
+  before_filter :authorize_user!, :except => [:index, :result]
   
   def index
     @questions = Question.all
@@ -21,8 +21,9 @@ class ChallengesController < ApplicationController
   end
   def edit
   end
-  def check_answers
-    
+  def result
+    text = '' << puts(params[:questions].to_yaml)
+    render :text => params[:questions].to_yaml
   end
   def update
     if @question.update_attributes(params[:question])
