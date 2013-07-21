@@ -2,110 +2,83 @@ require 'spec_helper'
 
 describe Question do
   describe 'check type' do
-    describe 'type should be match' do
-      before(:each) do
-        @question = Question.new
+    context 'empty recored' do
+      it 'should raise error' do
+        lambda{Question.new.type?('text')}.should raise_error(StandardError, 'Question type not set yet')
       end
-      
-      it 'empty recored' do
-        @question.qtype.should be_nil
-        @question.type?('text').should be_true
-      end
-      
-      it 'assigns to text' do
-        type = 'text'
-        @question.qtype = type
-        @question.type?(type).should be_true
-      end
-      
-      it 'assigns to single-select' do
-        type = 'single-select'
-        @question.qtype = type
-        @question.type?(type).should be_true
-      end
-      
-      it 'assigns to multi-select' do
-        type = 'multi-select'
-        @question.qtype = type
-        @question.type?(type).should be_true
-      end
-      
     end
+    describe 'should be match with type of' do
+      subject { FactoryGirl.build(:question, :qtype => type)}
+      
+      ['text', 'single-select','multi-select'].each do |attr|
+        let(:type) { attr }
+        it "#{attr}" do
+          subject.type?(type).should be_true
+        end
+      end
+    end
+    
     describe 'should not match' do
-      before(:each) do
-        @questions = [Question.new,
-                      FactoryGirl.build(:text_question),
-                      FactoryGirl.build(:single_select_question),
-                      FactoryGirl.build(:multi_select_question)]
-      end
-      it 'text' do
-        @questions.delete_if{|q| q.type? 'text'}
-        @questions.each do |question|
-          question.type?('text').should_not be true
+      let(:questions) {[FactoryGirl.build(:text_question),
+                        FactoryGirl.build(:single_select_question),
+                        FactoryGirl.build(:multi_select_question)]}
+                        
+      ['text', 'single-select','multi-select'].each do |attr|
+        it "#{attr}" do
+          questions.delete_if{|q| q.type? attr}
+          questions.each do |question|
+            question.type?(attr).should_not be true
+          end
         end
-      end
-      it 'single-select' do
-        @questions.delete_if{|q| q.type? 'single-select'}
-        @questions.each do |question|
-          question.type?('single-select').should_not be true
-        end
-      end
-      it 'multi-select' do
-        @questions.delete_if{|q| q.type? 'text'}
-        @questions.each do |question|
-          question.type?('multi-slect').should_not be true
-        end
-      end
-    end
-    
-  end
-  context 'get answer(s)' do
-    it 'for type text works' do
-      q = FactoryGirl.create(:text_question)
-      q.answers.to_a.should == q.options
-    end
-    
-    it 'for type single select works' do
-      q = FactoryGirl.create(:single_select_question)
-      q.answers.should == [q.options.first]
-    end
-    
-    it 'for type multi select works' do
-      q = FactoryGirl.build(:multi_select_question)
-      q.options.first(2).each do |opt|
-        opt.selected = true
-      end
-      q.save
-      q.answers.to_a.should == q.options.first(2)
+      end                        
+      
     end
     
   end
   
-  context 'check_answer' do
+  describe 'get answers' do
+    describe 'works of type' do
+      let(:questions) {[FactoryGirl.create(:text_question),
+                        FactoryGirl.create(:single_select_question),
+                        FactoryGirl.create(:multi_select_question)]}
+                        
+      ['text', 'single-select','multi-select'].each do |attr|
+        it "#{attr}" do
+          q = questions.shift
+          q.answers.should == [*q.options.first]
+        end
+      end
+    end
+  end
+  
+  context 'check answers' do
     before(:all) do
-      @questions = [FactoryGirl.create(:text_question),
-                    FactoryGirl.create(:single_select_question),
-                    FactoryGirl.create(:multi_select_question)]
+      @text = FactoryGirl.create(:text_question)
+      @single = FactoryGirl.create(:single_select_question)
+      @multiple = FactoryGirl.create(:multi_select_question)
+      @questions = [@text, @single, @multiple]
     end
     context 'should match' do
-      it 'for text question' do
-        q = @questions[0] 
-        q.check_answer(q.answers).should be_true
-      end
+      let(:questions) { @questions}
       
-      it 'for single-select question' do
-        q = @questions[0] 
-        q.check_answer(q.answers).should be_true
+      ['text', 'single-select','multi-select'].each do |attr|
+        it 'for #{attr}' do
+          q = questions.shift
+          q.answers?(q.answers).should be_true
+        end
       end
-      
-      it 'for text question' do
-        q = @questions[0] 
-        q.check_answer(q.answers).should be_true
-      end
-      
+      # => at this point the questions should be empty
     end
     context 'should not match' do
-      
+      ['text', 'single-select','multi-select'].each do |attr|
+        it "#{attr}" do
+          qs = @questions.reject{ |q| !q.type?(attr) }
+          q = (@questions - qs).first
+          qs.each do |question|
+            q.answers?(question.answers).should_not be true
+          end
+        end
+      end                        
     end
   end
   

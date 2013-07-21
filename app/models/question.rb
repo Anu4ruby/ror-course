@@ -8,18 +8,14 @@ class Question < ActiveRecord::Base
   validate :options_duplicated?, :answer_picked?
   
   def type?(type)
-    if qtype.nil? && type == 'text'
-      true
-    else
-      qtype == type
-    end
+    raise StandardError, 'Question type not set yet' if qtype.blank?
+    qtype == type
   end
   def answers
-    # Option.where('selected = ? AND question_id = ?', true, id)
-    options.where('selected = true')
+    options.where('selected = ?', true)
   end
-  def check_answer(answers)
-    self.answers == answers 
+  def answers?(answers)
+    self.answers == [*answers] 
   end
   private
   def answer_picked?
