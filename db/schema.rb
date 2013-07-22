@@ -11,28 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130708182251) do
+ActiveRecord::Schema.define(:version => 20130722195707) do
 
-  create_table "answers", :force => true do |t|
+  create_table "challenge_question_choices", :force => true do |t|
     t.text     "description"
-    t.string   "posted_by"
-    t.integer  "question_id"
-    t.integer  "choice_id"
+    t.integer  "challenge_question_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "challenge_question_choices", ["challenge_question_id"], :name => "index_challenge_question_choices_on_challenge_question_id"
+
+  create_table "challenge_questions", :force => true do |t|
+    t.text     "description"
+    t.text     "answer"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
-
-  add_index "answers", ["choice_id"], :name => "index_answers_on_choice_id"
-  add_index "answers", ["question_id"], :name => "index_answers_on_question_id"
-
-  create_table "choices", :force => true do |t|
-    t.text     "description"
-    t.integer  "question_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "choices", ["question_id"], :name => "index_choices_on_question_id"
 
   create_table "contents", :force => true do |t|
     t.string   "name"
