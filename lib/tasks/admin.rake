@@ -91,7 +91,7 @@ task :add_course_content => :environment do
                     </ol>
                 </li>
             </ol>
-        </div> ") 
+        </div> ").sanitize_sql
 @a.save!  
     
 end
