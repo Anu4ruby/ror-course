@@ -2,8 +2,8 @@ RorCourse::Application.routes.draw do
   devise_for :users
   
   match 'home/ror' => 'home#ror'
-  
-  resources :contents
+  match 'course-contents' => 'contents#index', :as => 'course_contents'
+  resources :contents, :except => [:new, :create, :destroy]
     
   resources :challenges do
     collection do
