@@ -32,7 +32,8 @@ describe HomeController do
             get :ror
             response.should redirect_to root_url
             flash[:notice].should have_content "You must be an authorized user to do that"
-          end
+          end       
+
         end
   
         describe "as an admin" do
@@ -42,7 +43,7 @@ describe HomeController do
             response.should render_template :ror_content
             response.body.should have_content 'RoR Course'
           end
-          
+                    
         end
   
       end

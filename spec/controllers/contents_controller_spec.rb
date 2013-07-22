@@ -28,6 +28,7 @@ describe ContentsController do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ContentsController. Be sure to keep this updated too.
+
   let(:valid_session) { {} }
   
   
@@ -37,18 +38,94 @@ describe ContentsController do
       :content => "Bar"
     }
   end
+#Test case for Index action
   describe "GET index" do
     it "assigns all contents as @contents" do
-      content = Content.create!(@valid_attributes)
+      @content = Content.create!(@valid_attributes)
       get :index, {}, valid_session
-      assigns(:contents).should eq([content])
+      # assigns(:contents).should eq([@content])
+      assigns(:contents) =~ ([@content])
     end
     
     it "renders the :index view" do 
        get :index 
-       response.should render_template :index 
-    end  
+       response.should render_template :index        
+    end 
   end
+
+#Test case for show action
+  describe "GET show" do
+      it "displays the requested content as @content" do
+        @content = Content.create!(@valid_attributes)
+         
+        get 'show', :id => @content.id
+        assigns[(:content)].should eq([@content])
+        # assigns(:content) =~ ([@content])
+      end
+    
+      # it "renders the :show view" do 
+      #    get 'show', :id => content.id
+      #    response.should render_template :show        
+      # end 
+    end
+
+
+# Positive test case for edit and update course content page
+  describe 'GET edit' do
+     it 'can access the Edit link of the the course content page' do
+        login_admin
+        content = Content.create!(@valid_attributes)
+         
+        get 'edit', :id => content.id
+
+        response.status.should be(200)
+      end
+  end
+
+  describe 'PUT update' do
+     it 'can update the course content page' do
+        login_admin
+        content = Content.create!(@valid_attributes)
+         
+        put 'update', :content => {:content => 'Edited text', :name => 'Foo'}, :id => content.id
+
+        Content.find(content.id).content.should == "Edited text"
+      end
+  end
+
+
+
+# negative test case for edit and update course-content page
+
+describe 'GET edit' do
+     it 'can access the Edit link of the the course content page' do
+        login_user
+        content = Content.create!(@valid_attributes)
+         
+        get 'edit', :id => content.id           
+        response.should redirect_to root_url
+        flash[:notice].should have_content "You must be an authorized user to do that"
+            
+
+      end
+  end
+
+  describe 'PUT update' do
+     it 'can update the course content page' do
+        login_user
+        content = Content.create!(@valid_attributes)
+         
+        put 'update', :content => {:content => 'Edited text', :name => 'Foo'}, :id => content.id
+
+        response.should redirect_to root_url
+        flash[:notice].should have_content "You must be an authorized user to do that"
+
+      end
+  end
+
+
+
+end
 
   # describe "GET show" do
   #   it "assigns the requested content as @content" do
@@ -169,4 +246,4 @@ describe ContentsController do
   #   end
   # end
 
-end
+# end
