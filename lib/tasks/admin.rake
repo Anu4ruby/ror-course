@@ -9,7 +9,7 @@ end
 
 desc "Course Contents"
 task :add_course_content => :environment do
-@a = Content.create(:name = "RoR-Course", :content = "<div id= "listContainer">
+@a = Content.create(:name => "RoR-Course", :content => "<div id= "listContainer">
             <ol id= "expList">
                 <li>
                     Item A
