@@ -7,41 +7,97 @@ describe ChallengesHelper do
                 'Multiple Select' => 'multi-select'}
       question_types.should == types
     end
-    
   end
+  
   describe 'setup question' do
+    def dup_question(question)
+      q = Question.new
+      q.qtype = question.qtype
+      q.description = question.description
+      q.options = question.options
+      q
+    end
     
-    describe 'should change' do
-      it 'new record' do
-        question = Question.new
-        dup = question.clone
-        setup_question(question)
-        question.should_not == dup
+    describe 'new record' do
+      before(:each) do
+        @question = Question.new
+        setup_question(@question)
       end
-      describe 'with defined type' do
-        ['text','single-select', 'multi-select'].each do |type|
-          it "#{type}" do
-            question = Question.new(:qtype => type)
-            dup = question.dup
-            setup_question(question)
-            question.should_not == dup
+      it 'should change to type text' do
+        @question.should be_type('text')
+      end
+      it 'should has 1 option' do
+        @question.options.should have(1).items
+      end
+    end
+    describe 'with defined type' do
+      ['text','single-select', 'multi-select'].each do |type|
+        describe "#{type}" do
+          before(:each) do
+            @question = Question.new(:qtype => type)
+            setup_question(@question)
           end
-        end  
+          it 'should not change type' do
+            @question.should be_type(type)
+          end
+          it 'should not change description' do
+            @question.description.should be_blank
+          end
+          num = type == 'text' ? 1 : 5
+          it "should have #{num} options" do
+            @question.options.should have(num).items
+          end
+          describe 'and defined options' do
+            [0, 1, 5].each do |idx|
+              describe "of #{idx}" do
+                before(:each) do
+                  @options = idx.times.inject([]) { |result| result << Option.new(:content => 'some content')}
+                  @question.options = @options
+                  setup_question(@question)
+                end
+                it "match #{idx} options" do
+                  @options.should have(idx).items
+                end
+                it "it should be type #{type}" do
+                  @question.should be_type(type)
+                end
+                it "should have #{num} options" do
+                  @question.options.should have(num).items
+                end
+                blank_num = type == 'text' ? idx == 0 ? 1 : 0 : 5-idx
+                it "should have #{ blank_num } blank options" do
+                  @question.options.select{|o| o.content.blank? }.should have(blank_num).items
+                end
+              end
+            end
+            
+          end
+        end
       end
     end
-    describe 'should not change' do
-      it 'text with options of first with content and selected' do
-        question = FactoryGirl.build(:text_question)
-        dup = question.clone
-        setup_question(question)
-        question.options.should == dup.options
-        
-        question.should be_type(dup.qtype)
-        question.description.should == dup.description
+    describe 'with defined options only' do
+      [1, 4, 5, 7].each do |size|
+        describe "of size #{size}" do
+          before(:each) do
+            @question = Question.new
+            @question.options = size.times.inject([]){ |result| result << Option.new(:content => 'yea')}
+            setup_question(@question)
+          end
+          it 'should be type text' do
+            @question.should be_type('text')
+          end
+          it 'should have only 1 option' do
+            @question.options.should have(1).items
+          end
+          it 'option should be selected' do
+            @question.options.first.should be_selected
+          end
+          it 'option should not change' do
+            @question.options.first.content.should == 'yea'
+          end
+        end
       end
-      
     end
-    
   end
   
   describe 'init_type!' do
@@ -66,6 +122,7 @@ describe ChallengesHelper do
       end
     end
   end
+  
   describe 'set_text_options!' do
     
     context 'always size of 1' do
@@ -73,7 +130,7 @@ describe ChallengesHelper do
         it "starts with #{number} options" do
           options = number.times.inject([]){|result| result << Option.new }
           set_text_options!(options)
-          options.size.should == 1
+          options.should have(1).items
         end
       end
     end
@@ -103,22 +160,27 @@ describe ChallengesHelper do
   end
 
   describe 'set_selection_options!' do
+    before(:each){@question = Question.new}
     context 'at least 5 options' do
       [0, 1, 5, 8].each do |number|
         it "start with #{number} options" do
           options = number.times.inject([]){|result| result << Option.new }
           set_selection_options!(options)
-          options.size.should >= 5
+          options.should have_at_least(5).items
         end
       end
     end
     
-    context 'fill with extract options if options < 5' do
+    context 'fill up to 5 options if options < 5' do
       [0, 1, 4].each do |number|
         it "starts with #{number} options with content" do
           options = number.times.inject([]){|result| result << Option.new(content: 'content') }
+          @question.options = options
           set_selection_options!(options)
-          options.select{|o| o.content.blank?}.size.should == (5-number)
+          opts = @question.options
+          set_selection_options!(opts)
+          options.select{|o| o.content.blank?}.should have(5-number).items
+          @question.options.select{|o| o.content.blank?}.should have(5-number).items
         end
       end
     end
