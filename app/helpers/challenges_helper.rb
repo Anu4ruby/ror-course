@@ -13,13 +13,10 @@ module ChallengesHelper
     options.clear << opt
   end
   def type_matches?(type)
-    !type.blank? && question_types.has_value?(type)
+    !type.blank? && Question.types.has_value?(type)
   end
   def set_selection_options!(options)
     (5-options.size).times{ options << Option.new}
-  end
-  def question_types
-    {'Free Text' => 'text', 'Single Select' => 'single-select', 'Multiple Select' => 'multi-select'}
   end
   
   def check_answers(questions, answers)

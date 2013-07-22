@@ -2,7 +2,7 @@
   .control-group
     = f.label :qtype, 'Type', class: 'control-label'
     .controls
-      = f.select :qtype, options_for_select(question_types, @question.qtype), {}, {:class => 'span12'}
+      = f.select :qtype, options_for_select(Question.types, @question.qtype), {}, {:class => 'span12'}
   .control-group
     = f.label :description, 'Question', class: 'control-label'
     .controls

@@ -1,13 +1,5 @@
 require 'spec_helper'
 describe ChallengesHelper do
-  context 'questions types' do
-    it 'has hash of all question types with lable=>value' do
-      types = { 'Free Text' => 'text', 
-                'Single Select' => 'single-select', 
-                'Multiple Select' => 'multi-select'}
-      question_types.should == types
-    end
-  end
   
   describe 'setup question' do
     def dup_question(question)
