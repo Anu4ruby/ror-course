@@ -1,6 +1,15 @@
 require 'spec_helper'
 
 describe Question do
+  context 'questions types' do
+    it 'has hash of all question types with lable=>value' do
+      types = { 'Free Text' => 'text', 
+                'Single Select' => 'single-select', 
+                'Multiple Select' => 'multi-select'}
+      Question.types.should == types
+    end
+  end
+  
   describe 'check type' do
     context 'empty recored' do
       it 'should raise error' do

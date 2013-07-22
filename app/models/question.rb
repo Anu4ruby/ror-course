@@ -17,6 +17,14 @@ class Question < ActiveRecord::Base
   def answers?(answers)
     self.answers == [*answers] 
   end
+  def eql_attr?(dup)
+    type?(dup.qtype) && description == dup.description && options == dup.options 
+  end
+  def self.types
+    { 'Free Text' => 'text', 
+      'Single Select' => 'single-select', 
+      'Multiple Select' => 'multi-select'}
+  end
   private
   def answer_picked?
     if type?('multi-select')
