@@ -9,7 +9,7 @@ end
 
 desc "Course Contents"
 task :add_course_content => :environment do
-@a = Content.create(:name => "RoR-Course", :content => "<div id= "listContainer">
+    sql = '<div id= "listContainer">
             <ol id= "expList">
                 <li>
                     Item A
@@ -91,7 +91,8 @@ task :add_course_content => :environment do
                     </ol>
                 </li>
             </ol>
-        </div> ") 
+        </div> '
+@a = Content.create(:name => "RoR-Course", :content => ActiveRecord::Base.connection.quote(sql))
 @a.save!  
     
 end

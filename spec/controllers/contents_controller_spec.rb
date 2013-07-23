@@ -56,17 +56,19 @@ describe ContentsController do
 #Test case for show action
   describe "GET show" do
       it "displays the requested content as @content" do
-        @content = Content.create!(@valid_attributes)
+        content = Content.create!(@valid_attributes)
          
-        get 'show', :id => @content.id
-        assigns[(:content)].should eq([@content])
-        # assigns(:content) =~ ([@content])
+        get 'show', :id => content.id
+        
+        assigns[:content].should == content
       end
     
-      # it "renders the :show view" do 
-      #    get 'show', :id => content.id
-      #    response.should render_template :show        
-      # end 
+      it "renders the :show view" do 
+         content = Content.create!(@valid_attributes)
+         get 'show', :id => content.id
+
+         response.should render_template('show')        
+      end 
     end
 
 
@@ -98,20 +100,18 @@ describe ContentsController do
 # negative test case for edit and update course-content page
 
 describe 'GET edit' do
-     it 'can access the Edit link of the the course content page' do
+     it 'Anonymous user can not access the Edit link of the the course content page' do
         login_user
         content = Content.create!(@valid_attributes)
          
         get 'edit', :id => content.id           
         response.should redirect_to root_url
         flash[:notice].should have_content "You must be an authorized user to do that"
-            
-
       end
   end
 
   describe 'PUT update' do
-     it 'can update the course content page' do
+     it 'Anonymous user can not update the course content page' do
         login_user
         content = Content.create!(@valid_attributes)
          
@@ -119,7 +119,6 @@ describe 'GET edit' do
 
         response.should redirect_to root_url
         flash[:notice].should have_content "You must be an authorized user to do that"
-
       end
   end
 
