@@ -3,10 +3,11 @@
 - else
   - question.options.each do |choice|
     .choice.row-fluid
-      .choice-select.span1
-        - if question.type? 'single-select'
-          = radio_button_tag "answers[#{question.id}][]", choice.content
-        - else
-          = check_box_tag "answers[#{question.id}][]", choice.content
+      - if !@answers
+        .choice-select.span1
+          - if question.type? 'single-select'
+            = radio_button_tag "answers[#{question.id}][]", choice.id
+          - else
+            = check_box_tag "answers[#{question.id}][]", choice.id
       .choice-content.span10
         = choice.content 

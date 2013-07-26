@@ -1,4 +1,6 @@
 $radius: 20px;
+$bcolor: skyblue;
+$box-bg-color: lightgrey;
 @mixin radius-base($radius){
   -webkit-border-radius: $radius;
      -moz-border-radius: $radius;
@@ -21,7 +23,7 @@ $radius: 20px;
   border-bottom-right-radius: $radius;
 }
 @mixin border-base($radius){
-  border: 1px solid black;
+  border: 1px solid $bcolor;
   clear: both;
   padding: 10px 20px;
 }
@@ -49,7 +51,7 @@ $radius: 20px;
 
 .box{
   margin-bottom: 10px;
-  background-color: lightgrey;
+  background-color: $box-bg-color;
   @include radius-base(3px);
 }
 .border-top{

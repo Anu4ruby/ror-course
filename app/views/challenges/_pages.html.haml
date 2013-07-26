@@ -1,0 +1,18 @@
+- pages = number_of_pages(@questions)
+= render 'shared/pagination', :pages => pages
+.pages
+  - 1.upto pages do |page|
+    .page.row-fluid
+      .span10.offset1
+        - page_items(@questions, page).each do |item|
+          .page-item.border2{:id => "q#{item.id}", :class => correct[item.id]}
+            - if is_admin?
+              .action.pull-right
+                .btn
+                  = link_to '', edit_challenge_path(item), :class => 'icon-edit', :title => 'Edit'
+            .item-idx
+            .description.span11
+              = item.description
+            .answer.clear
+              = render 'set_answer_input', :question => item
+= render 'shared/pagination', :pages => pages
