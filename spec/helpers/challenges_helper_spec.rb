@@ -189,4 +189,25 @@ describe ChallengesHelper do
     end
     
   end
+  describe 'output_stat' do
+    it 'rendered' do
+      data = {:size => 10, :correct => (1..6).to_a, :pending => (7..10).to_a}
+      output_stat(data).should =~ /div.*span/
+    end
+    it 'raise error' do
+      data = {}
+      lambda{output_stat(data)}.should raise_error(StandardError, "data not correct")
+    end
+  end
+  describe 'check_answers' do
+    it 'should work' do
+      FactoryGirl.create(:text_question)
+      FactoryGirl.create(:single_select_question)
+      FactoryGirl.create(:multi_select_question)
+      qs = Question.all
+      answers = qs.inject({}) { |r,q| r.merge(q.id.to_s => q.answers.map(&:id))}
+      data = check_answers(qs, answers) 
+      data.should == {:pending => [1], :correct => [2]}
+    end
+  end
 end

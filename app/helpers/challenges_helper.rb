@@ -20,15 +20,32 @@ module ChallengesHelper
   end
   
   def check_answers(questions, answers)
-    correct = 0
-    pending = 0
-    questions.each_with_index do |q, idx|
-      if q.type?('text')
-        pending += 1
-        next
+    answers.each_value {|ans| ans.delete_if {|item| item.blank?} }
+    data = questions.inject({:pending => [], :correct => []}) do |hash, q|
+      id_str = q.id.to_s
+      if q.type?('text') && !answers[id_str].blank?
+        hash[:pending] << q.id
+      else
+        hash[:correct] << q.id if q.answers?(answers[id_str])
       end
-      correct +=1 if q.check_answer(answers[q.id.to_s])
+      
+      hash
     end
-    {:size => questions.size, :correct => correct, :pending => pending}
+    data[:size] = questions.size
+    data
+  end
+  
+  def output_stat(data)
+    # data = check_answers(questions, answers)
+    size = data[:size]
+    correct = data[:correct].size
+    pending = data[:pending].size
+    result = number_with_precision((correct.to_f / size)*100, :precision => 2)+" % "
+    
+    content_tag(:div) do
+      concat content_tag(:span, "score: #{result}")
+      concat content_tag(:span, "pending: #{pending} / #{size}")
+    end
+    
   end
 end

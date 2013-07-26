@@ -22,4 +22,5 @@ class ApplicationController < ActionController::Base
       render :layout => false
     end
   end
+  
 end

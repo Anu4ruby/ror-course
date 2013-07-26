@@ -2,11 +2,16 @@ class Question < ActiveRecord::Base
   default_scope :include => :options
   attr_accessible :created_by, :description, :qtype, :options_attributes
   has_many :options
+  accepts_nested_attributes_for :options, :allow_destroy => true, :reject_if => proc { |option| option['content'].blank? }
+  
   validates :description, :presence => true, :uniqueness => true
   validates :qtype, :presence => true
-  accepts_nested_attributes_for :options, :allow_destroy => true, :reject_if => proc { |option| option['content'].blank? }
-  validate :options_duplicated?, :answer_picked?
-  
+  validates :options, :presence => true
+  # validate :options_duplicated?, :answer_picked?
+  def after_validation
+    options_duplicated?
+    :answer_picked?
+  end
   def type?(type)
     raise StandardError, 'Question type not set yet' if qtype.blank?
     qtype == type
@@ -15,7 +20,7 @@ class Question < ActiveRecord::Base
     options.where('selected = ?', true)
   end
   def answers?(answers)
-    self.answers == [*answers] 
+    self.answers.map(&:id) == [*answers].map{|a| a.to_i} 
   end
   def eql_attr?(dup)
     type?(dup.qtype) && description == dup.description && options == dup.options 

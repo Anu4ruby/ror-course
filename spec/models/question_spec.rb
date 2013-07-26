@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 describe Question do
+  describe 'validation' do
+    it 'description is required' do
+      Question.create().should have(1).error_on(:description)
+      Question.create(:description => 'yea').should have(0).error_on(:description)
+    end
+    it 'qtype is required' do
+      Question.create().should have(1).error_on(:description)
+      Question.create(:qtype => 'text').should have(0).error_on(:qtype)
+    end
+  end
   context 'questions types' do
     it 'has hash of all question types with lable=>value' do
       types = { 'Free Text' => 'text', 
@@ -73,7 +83,7 @@ describe Question do
       ['text', 'single-select','multi-select'].each do |attr|
         it 'for #{attr}' do
           q = questions.shift
-          q.answers?(q.answers).should be_true
+          q.answers?(q.answers.map(&:id)).should be_true
         end
       end
       # => at this point the questions should be empty

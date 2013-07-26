@@ -1,3 +1,8 @@
-- @answers.each do |key, value|
-  .test
-    = key + ' => ' + value.to_s
+#title
+  %h1 Challenge Result
+#result.container-fluid
+  .row-fluid#result-stat
+    .span10.offset1.label.label-warning
+      = output_stat(@stat)
+  = render 'pages', :correct => @correct_class
+

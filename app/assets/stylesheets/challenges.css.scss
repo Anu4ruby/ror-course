@@ -50,3 +50,37 @@
 .choices .fields{
   padding-bottom: 4px;
 }
+
+#challenge-form .container-fluid{
+  margin-top: -70px;
+}
+
+#challenge-form input[type=submit]{
+  position: relative;
+  top: -100px;
+  right: 100px;
+}
+
+#result{
+  position: relative;
+}
+
+#result > .row-fluid + .pagination{
+  position: absolute;
+  top: -70px;
+  right: 100px;
+}
+
+#result .page-item:not(.correct){
+  border-color: red;
+}
+
+#result-stat{
+  text-align: center;
+  vertical-align: center;
+  margin-bottom: 5px;
+}
+
+#result-stat span{
+  margin: 8px;
+}
