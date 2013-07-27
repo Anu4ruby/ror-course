@@ -30,6 +30,24 @@ class Question < ActiveRecord::Base
       'Single Select' => 'single-select', 
       'Multiple Select' => 'multi-select'}
   end
+  #the optional questions save query time if it already been queried
+  def self.check_answers(answers, questions = nil)
+    answers.each_value {|ans| ans.delete_if {|item| item.blank?} }
+    questions ||= Question.all
+    data = {:pending => [], :correct => [], :size => questions.size}
+    questions.inject(data) do |hash, q|
+      id_str = q.id.to_s
+      if q.type?('text') && !answers[id_str].blank?
+        hash[:pending] << q.id
+      else
+        hash[:correct] << q.id if q.answers?(answers[id_str])
+      end
+      hash
+    end
+  end
+  def self.has_type?(type)
+    !type.blank? && Question.types.has_value?(type)
+  end
   private
   def answer_picked?
     if type?('multi-select')

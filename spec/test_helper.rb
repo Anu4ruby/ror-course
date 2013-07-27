@@ -44,5 +44,31 @@ module TestHelper
   def pass_authorize
     controller.should_receive(:authorize_user!).at_least(0).times.and_return(nil)
   end
-    
+  # shortcut for factory girl
+  # # factorygirl create
+  # def fgc(symbol, options={})
+    # FactoryGirl.create(symbol.to_sym, options)
+  # end
+  # # factorygirl build
+  # def fgb(symbol, options={})
+    # FactoryGirl.build(symbol.to_sym, options)
+  # end
+  # # factorygirl attributes_for
+  # def fga(symbol, options={})
+    # FactoryGirl.attributes_for(symbol.to_sym, options)
+  # end
+  def method_missing(meth, *args, &block)
+    if m = meth.to_s.match(/^fg([abc])$/)
+      case m[1]
+      when 'a'
+        FactoryGirl.attributes_for(*args, &block)
+      when 'b'
+        FactoryGirl.build(*args, &block)
+      when 'c'
+        FactoryGirl.create(*args, &block)
+      end
+    else
+      super
+    end
+  end
 end

@@ -9,119 +9,125 @@ describe ChallengesHelper do
       q.options = question.options
       q
     end
+    def build_options(number, content = nil)
+      number.times.inject([]){|result| result << Option.new(:content => content)}
+    end
+    let(:q) { Question.new(:qtype => type) }
+    let(:opts) { build_options(num, cont)}
+    let(:cont) { 'some content' }
+    before(:each) do
+      setup_question(q)
+    end
     
     describe 'new record' do
-      before(:each) do
-        @question = Question.new
-        setup_question(@question)
+      let(:type) {nil}
+      it 'become type of text' do
+        q.should be_type('text')
       end
-      it 'should change to type text' do
-        @question.should be_type('text')
+      it 'has 1 option' do
+        q.options.should have(1).items
       end
-      it 'should has 1 option' do
-        @question.options.should have(1).items
+      it 'option selected' do
+        q.options.first.should be_selected
       end
     end
-    describe 'with defined type' do
-      ['text','single-select', 'multi-select'].each do |type|
-        describe "#{type}" do
-          before(:each) do
-            @question = Question.new(:qtype => type)
-            setup_question(@question)
-          end
-          it 'should not change type' do
-            @question.should be_type(type)
-          end
-          it 'should not change description' do
-            @question.description.should be_blank
-          end
-          num = type == 'text' ? 1 : 5
-          it "should have #{num} options" do
-            @question.options.should have(num).items
-          end
-          describe 'and defined options' do
-            [0, 1, 5].each do |idx|
-              describe "of #{idx}" do
-                before(:each) do
-                  @options = idx.times.inject([]) { |result| result << Option.new(:content => 'some content')}
-                  @question.options = @options
-                  setup_question(@question)
-                end
-                it "match #{idx} options" do
-                  @options.should have(idx).items
-                end
-                it "it should be type #{type}" do
-                  @question.should be_type(type)
-                end
-                it "should have #{num} options" do
-                  @question.options.should have(num).items
-                end
-                blank_num = type == 'text' ? idx == 0 ? 1 : 0 : 5-idx
-                it "should have #{ blank_num } blank options" do
-                  @question.options.select{|o| o.content.blank? }.should have(blank_num).items
-                end
-              end
-            end
-            
-          end
+    
+    [1, 4, 5, 7].each do |size|
+      describe "new record with defined #{size} options" do
+        let(:type) { nil }
+        let(:num){ size }
+        before(:each) do
+          q.options = opts#build_options(size, cont)
+          setup_question(q)
+        end
+        it 'match type of text' do
+          q.should be_type('text')
+        end
+        it 'only 1 option' do
+          q.options.should have(1).items
+        end
+        it 'option selected' do
+          q.options.first.should be_selected
+        end
+        it 'option not change' do
+          q.options.first.content.should == cont
+        end
+      end# size.each
+    end
+    
+    ['text','single-select', 'multi-select'].each do |type|
+      describe "with defined type #{type}" do
+        let(:type){ type }
+        it 'matches' do
+          q.should be_type(type)
+        end
+        it 'description remain blank' do
+          q.description.should be_blank
+        end
+        num = type == 'text' ? 1 : 5
+        it "has #{num} options" do
+          q.options.should have(num).items
         end
       end
     end
-    describe 'with defined options only' do
-      [1, 4, 5, 7].each do |size|
-        describe "of size #{size}" do
-          before(:each) do
-            @question = Question.new
-            @question.options = size.times.inject([]){ |result| result << Option.new(:content => 'yea')}
-            setup_question(@question)
-          end
-          it 'should be type text' do
-            @question.should be_type('text')
-          end
-          it 'should have only 1 option' do
-            @question.options.should have(1).items
-          end
-          it 'option should be selected' do
-            @question.options.first.should be_selected
-          end
-          it 'option should not change' do
-            @question.options.first.content.should == 'yea'
+    ['text','single-select', 'multi-select'].each do |type|
+      describe "with defined type and defined options" do
+        let(:type){ type }
+        [0, 1, 5].each do |idx|
+          describe "#{type} with #{idx}" do
+            let(:num) { idx }
+            before(:each) do
+              q.options = opts
+              setup_question(q)
+            end
+            it "matches #{type}" do
+              q.should be_type(type)
+            end
+            num = type == 'text' ? 1 : 5
+            it "has #{num} options" do
+              q.options.should have(num).items
+            end
+            blank_num = type == 'text' ? idx == 0 ? 1 : 0 : 5-idx
+            it "has #{ blank_num } blank options" do
+              q.options.select{|o| o.content.blank? }.should have(blank_num).items
+            end
           end
         end
       end
     end
   end
-  
+
   describe 'init_type!' do
-    before(:each) {@question = Question.new}
-    
+    let(:q){Question.new}
     it 'new record match type text' do
-      init_type!(@question)
-      @question.should be_type('text')
+      init_type!(q)
+      q.should be_type('text')
     end
-    describe 'with predefined type' do
+    
+    describe 'with valid type' do
       ['text', 'single-select', 'multi-select'].each do |type|
         it "matches #{type}" do
-          @question.qtype = type
-          init_type!(@question)
-          @question.should be_type(type)
+          q.qtype = type
+          init_type!(q)
+          q.should be_type(type)
         end
       end
+      
       it 'matches text with invalid type' do
-        @question.qtype = 'long'
-        init_type!(@question)
-        @question.should be_type('text')
+        q.qtype = 'invalid_type'
+        init_type!(q)
+        q.should be_type('text')
       end
     end
   end
   
-  describe 'set_text_options!' do
+  describe 'set_text_options' do
     
     context 'always size of 1' do
       [0, 1, 5].each do |number|
         it "starts with #{number} options" do
           options = number.times.inject([]){|result| result << Option.new }
-          set_text_options!(options)
+          options = set_text_options(options)
           options.should have(1).items
         end
       end
@@ -130,12 +136,12 @@ describe ChallengesHelper do
     context 'will be selected' do
       it 'come with selected' do
         options = [Option.new(:selected => true)]
-        set_text_options!(options)
+        options = set_text_options(options)
         options.first.should be_selected
       end
       it 'come without selected' do
         options = [Option.new]
-        set_text_options!(options)
+        options = set_text_options(options)
         options.first.should be_selected
       end
     end
@@ -144,20 +150,19 @@ describe ChallengesHelper do
       ['', 'some content'].each do |content|
         it "with '#{content}'" do
           options = [Option.new(:content => content)]
-          set_text_options!(options)
+          options = set_text_options(options)
           options.first.content.should == content
         end
       end
     end
   end
 
-  describe 'set_selection_options!' do
-    before(:each){@question = Question.new}
+  describe 'set_selection_options' do
     context 'at least 5 options' do
       [0, 1, 5, 8].each do |number|
         it "start with #{number} options" do
           options = number.times.inject([]){|result| result << Option.new }
-          set_selection_options!(options)
+          options = set_selection_options(options)
           options.should have_at_least(5).items
         end
       end
@@ -166,13 +171,11 @@ describe ChallengesHelper do
     context 'fill up to 5 options if options < 5' do
       [0, 1, 4].each do |number|
         it "starts with #{number} options with content" do
-          options = number.times.inject([]){|result| result << Option.new(content: 'content') }
-          @question.options = options
-          set_selection_options!(options)
-          opts = @question.options
-          set_selection_options!(opts)
+          options = number.times.inject([]) do |result| 
+            result << Option.new(content: 'content')
+          end
+          options = set_selection_options(options)
           options.select{|o| o.content.blank?}.should have(5-number).items
-          @question.options.select{|o| o.content.blank?}.should have(5-number).items
         end
       end
     end
@@ -180,34 +183,26 @@ describe ChallengesHelper do
     context 'no change if options >= 5' do
       [5, 8, 12].each do |number|
         it "starts with #{number} options" do
-          options = number.times.inject([]){|result| result << Option.new(content: 'content') }
+          options = number.times.inject([]) do |result| 
+            result << Option.new(content: 'content')
+          end
           dup = options.dup
-          set_selection_options!(options)
+          options = set_selection_options(options)
           options.should == dup
         end
       end
     end
-    
   end
+  
   describe 'output_stat' do
     it 'rendered' do
       data = {:size => 10, :correct => (1..6).to_a, :pending => (7..10).to_a}
       output_stat(data).should =~ /div.*span/
     end
-    it 'raise error' do
+    it 'should be ""' do
       data = {}
-      lambda{output_stat(data)}.should raise_error(StandardError, "data not correct")
+      output_stat(data).should == ""
     end
   end
-  describe 'check_answers' do
-    it 'should work' do
-      FactoryGirl.create(:text_question)
-      FactoryGirl.create(:single_select_question)
-      FactoryGirl.create(:multi_select_question)
-      qs = Question.all
-      answers = qs.inject({}) { |r,q| r.merge(q.id.to_s => q.answers.map(&:id))}
-      data = check_answers(qs, answers) 
-      data.should == {:pending => [1], :correct => [2]}
-    end
-  end
+  
 end

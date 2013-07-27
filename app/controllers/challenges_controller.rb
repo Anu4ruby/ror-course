@@ -1,5 +1,4 @@
 class ChallengesController < ApplicationController
-  include ChallengesHelper
   before_filter :get_question, :only => [:show, :edit, :update]
   before_filter :authorize_user!, :except => [:index, :result]
   
@@ -25,7 +24,7 @@ class ChallengesController < ApplicationController
   def result
     @questions = Question.all
     @answers = params[:answers]
-    @stat = check_answers(@questions, @answers)
+    @stat = Question.check_answers(@answers, @questions)
     @correct_class = @stat[:correct].inject({}){|r, i| r.merge(i => 'correct')}
   end
   def update

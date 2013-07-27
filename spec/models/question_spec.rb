@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Question do
+  let(:text) { fgc(:text_question) }
+  let(:single) { fgc(:single_select_question) }
+  let(:multiple) { fgc(:multi_select_question) }
+  
   describe 'validation' do
     it 'description is required' do
       Question.create().should have(1).error_on(:description)
@@ -21,27 +25,24 @@ describe Question do
   end
   
   describe 'check type' do
-    context 'empty recored' do
+    context 'empty record' do
       it 'should raise error' do
-        lambda{Question.new.type?('text')}.should raise_error(StandardError, 'Question type not set yet')
+        lambda{Question.new.type?('text')}.should raise_error(StandardError)
       end
     end
-    describe 'should be match with type of' do
+    describe 'with type' do
       subject { FactoryGirl.build(:question, :qtype => type)}
       
       ['text', 'single-select','multi-select'].each do |attr|
         let(:type) { attr }
-        it "#{attr}" do
+        it "#{attr} matches" do
           subject.type?(type).should be_true
         end
       end
     end
     
     describe 'should not match' do
-      let(:questions) {[FactoryGirl.build(:text_question),
-                        FactoryGirl.build(:single_select_question),
-                        FactoryGirl.build(:multi_select_question)]}
-                        
+      let(:questions) {[text, single, single, multiple, multiple]}
       ['text', 'single-select','multi-select'].each do |attr|
         it "#{attr}" do
           questions.delete_if{|q| q.type? attr}
@@ -57,10 +58,7 @@ describe Question do
   
   describe 'get answers' do
     describe 'works of type' do
-      let(:questions) {[FactoryGirl.create(:text_question),
-                        FactoryGirl.create(:single_select_question),
-                        FactoryGirl.create(:multi_select_question)]}
-                        
+      let(:questions) { [text, single, multiple, single, multiple, single] }
       ['text', 'single-select','multi-select'].each do |attr|
         it "#{attr}" do
           q = questions.shift
@@ -71,17 +69,10 @@ describe Question do
   end
   
   context 'check answers' do
-    before(:all) do
-      @text = FactoryGirl.create(:text_question)
-      @single = FactoryGirl.create(:single_select_question)
-      @multiple = FactoryGirl.create(:multi_select_question)
-      @questions = [@text, @single, @multiple]
-    end
+    let(:questions) { [text, single, multiple, single, multiple, single] }
     context 'should match' do
-      let(:questions) { @questions}
-      
       ['text', 'single-select','multi-select'].each do |attr|
-        it 'for #{attr}' do
+        it "for #{attr}" do
           q = questions.shift
           q.answers?(q.answers.map(&:id)).should be_true
         end
@@ -91,14 +82,33 @@ describe Question do
     context 'should not match' do
       ['text', 'single-select','multi-select'].each do |attr|
         it "#{attr}" do
-          qs = @questions.reject{ |q| !q.type?(attr) }
-          q = (@questions - qs).first
+          qs = questions.reject{ |q| !q.type?(attr) }
+          q = (questions - qs).first
           qs.each do |question|
-            q.answers?(question.answers).should_not be true
+            q.answers?(question.answers.map(&:id)).should_not be true
           end
         end
       end                        
     end
   end
   
+  describe 'check all answers' do
+    before(:each) do
+      fgc(:text_question)
+      fgc(:single_select_question)
+      fgc(:multi_select_question)
+    end
+    it 'should work' do
+      qs = Question.all
+      answers = qs.inject({}) { |r,q| r.merge(q.id.to_s => q.answers.map(&:id))}
+      data = Question.check_answers(answers, qs) 
+      data[:size].should == 3
+      data[:pending].should == [1]
+      data[:correct].should == [2, 3]
+    end
+    it 'returns hash with keys [:size, :pending, :correct]' do
+      data = Question.check_answers({})
+      data.keys.sort.should == [:size, :pending, :correct].sort
+    end
+  end
 end
