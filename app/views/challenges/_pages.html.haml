@@ -1,4 +1,5 @@
 - pages = number_of_pages(@questions)
+- detail ||= {}
 = render 'shared/pagination', :pages => pages
 .pages
   - 1.upto pages do |page|
