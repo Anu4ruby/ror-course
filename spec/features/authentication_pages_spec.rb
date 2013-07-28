@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 include Warden::Test::Helpers
 
 # describe "Authentication" do
@@ -11,34 +10,26 @@ describe "Authorization" do
   subject { page }
 
   describe "when visiting the ror-course page" do
-
-    before(:each) { visit home_ror_path }
-
+    let(:user) { FactoryGirl.create(:user, :is_admin => admin) unless admin == 0 }
+    before(:each) do
+      login_as(user)
+      visit home_ror_path
+    end
+  
     describe "for non-signed-in users" do
+      let(:admin) { 0 }
       it { should have_selector('.alert', text: "sign in first") }
     end
 
     describe "for users signed-in" do
-
-      before(:each) do
-        @user = FactoryGirl.create(:user)
-        login_as(@user)
-        visit home_ror_path
-        # save_and_open_page
-      end
-
-      describe "as a regular user" do
-        it { should have_selector('h1', text: "Course Content") }
-      end
-
       describe "as an admin" do
-        # before do
-        #   @user.admin true
-        #   @user.save
-        # end
+        let(:admin) { true }
         it { should have_selector('h1', text: "Course Content") }
       end
-
+      describe "as a regular user" do
+        let(:admin) { false }
+        it { should_not have_selector('h1', text: "Course Content") }
+      end
     end
 
   end
