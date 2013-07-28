@@ -1,5 +1,6 @@
 require 'spec_helper'
 describe ApplicationHelper do
+  
   context 'check assets' do
     it 'should work' do
       asset_exist?('application.js').should == true
@@ -33,6 +34,23 @@ describe ApplicationHelper do
   context 'number of pages' do 
     it 'should return at least 1' do
       number_of_pages([]).should_not <= 0
+    end
+  end
+  
+  context 'normal user' do
+    context do
+      let(:user_signed_in?) { true }
+      let(:current_user) { fgb(:admin) }
+      it { normal_user?.should be_false }
+    end
+    context do
+      let(:user_signed_in?) { false }
+      it { normal_user?.should be_false }
+    end
+    context do
+      let(:user_signed_in?) { true }
+      let(:current_user) { fgb(:user) }
+      it { normal_user?.should be_true }
     end
   end
 end
