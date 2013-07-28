@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
   default_scope :include => :options
-  attr_accessible :created_by, :description, :qtype, :options_attributes
+  attr_accessible :qtype, :description, :created_by, :options_attributes
   has_many :options
   accepts_nested_attributes_for :options, :allow_destroy => true, :reject_if => proc { |option| option['content'].blank? }
   
@@ -9,8 +9,8 @@ class Question < ActiveRecord::Base
   validates :options, :presence => true
   # validate :options_duplicated?, :answer_picked?
   def after_validation
-    options_duplicated?
-    :answer_picked?
+    options_valid?
+    answer_picked?
   end
   def type?(type)
     raise StandardError, 'Question type not set yet' if qtype.blank?
@@ -22,9 +22,9 @@ class Question < ActiveRecord::Base
   def answers?(answers)
     self.answers.map(&:id) == [*answers].map{|a| a.to_i} 
   end
-  def eql_attr?(dup)
-    type?(dup.qtype) && description == dup.description && options == dup.options 
-  end
+  # def eql_attr?(dup)
+    # type?(dup.qtype) && description == dup.description && options == dup.options 
+  # end
   def self.types
     { 'Free Text' => 'text', 
       'Single Select' => 'single-select', 
@@ -50,13 +50,18 @@ class Question < ActiveRecord::Base
   end
   private
   def answer_picked?
+    selected = options.select { |o| o.selected? }.size
     if type?('multi-select')
-      errors.add(:answer, "at least 1 choosen") if !options.any? { |option| option.selected }
-    else
-      errors.add(:answer, "needs to be choosen") if options.select{|o| o.selected?}.size != 1
+      errors.add(:answer, "at least 1 choosen") unless selected >= 1
+    elsif selected != 1
+      errors.add(:answer, "needs to be choosen")
     end
   end
-  def options_duplicated?
-    errors.add(:options, "has duplicate options") if options.size > options.map(&:content).uniq.size
+  def options_valid?
+    if type?('text')
+      errors.add(:options, "should have only 1")
+    elsif options.size > options.map(&:content).uniq.size
+      errors.add(:options, "has duplicate") 
+    end
   end
 end

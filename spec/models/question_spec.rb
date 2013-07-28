@@ -100,15 +100,66 @@ describe Question do
     end
     it 'should work' do
       qs = Question.all
+      texts = Question.where(:qtype => 'text')
       answers = qs.inject({}) { |r,q| r.merge(q.id.to_s => q.answers.map(&:id))}
       data = Question.check_answers(answers, qs) 
-      data[:size].should == 3
-      data[:pending].should == [1]
-      data[:correct].should == [2, 3]
+      data[:size].should == qs.size
+      data[:pending].should == texts.map(&:id)
+      data[:correct].should == (qs - texts).map(&:id)
     end
     it 'returns hash with keys [:size, :pending, :correct]' do
       data = Question.check_answers({})
       data.keys.sort.should == [:size, :pending, :correct].sort
+    end
+  end
+
+  describe 'has_type?' do
+    ['text', 'single-select', 'multi-select'].each do |type|
+      it "has type #{type.inspect}" do
+        Question.should be_has_type(type)
+      end
+    end
+    [nil, '', 'not_valid_type'].each do |type|
+      it "has no type #{type.inspect}" do
+        Question.should_not be_has_type(type)
+      end
+    end
+  end
+  
+  # this include answer_picked and options_valid
+  describe 'after_validation' do
+    let(:qs) { [text, single, multiple] }
+    ["text", "single-select", "multi-select"].each_with_index do |type, idx|
+      describe do
+        let(:q) { qs[idx] }
+        it "answer picked for type #{type} " do
+          q.after_validation
+          q.errors.full_messages.should_not be_include("Answer needs to be choosen")
+          q.errors.full_messages.should_not be_include("Answer at least 1 choosen")
+        end
+        
+        it "fails: answer not picked for #{type}" do
+          q.options.first.selected = false
+          q.after_validation
+          q.errors.should be_has_key(:answer)
+        end
+        
+        it "has no duplicate options for type #{type}" do
+          q.after_validation
+          q.errors.full_messages.should_not be_include("has duplicate options")
+        end
+        
+        it "fails: has duplicate options for type #{type}" do
+          q.options[1] = q.options[0]
+          q.after_validation
+          q.errors.should be_has_key(:options)
+          if type == 'text'
+            q.errors.full_messages.should be_include("Options should have only 1")
+          else
+            q.errors.full_messages.should be_include("Options has duplicate")
+          end
+        end
+      end
     end
   end
 end
