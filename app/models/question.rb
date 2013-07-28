@@ -32,24 +32,36 @@ class Question < ActiveRecord::Base
   end
   #the optional questions save query time if it already been queried
   def self.check_answers(answers, questions = nil)
-    answers.each_value {|ans| ans.delete_if {|item| item.blank?} }
+    answers.each_value { |ans| ans.delete_if {|item| item.blank?} }
     questions ||= Question.all
-    data = {:wrong => [], :pending => [], :correct => [], :size => questions.size}
-    questions.inject(data) do |hash, q|
+    data = { :wrong => 0, :pending => 0, :correct => 0, :detail => {} }
+    data = questions.inject(data) do |hash, q|
       id_str = q.id.to_s
-      if q.type?('text') && !answers[id_str].blank?
-        hash[:pending] << q.id
-      elsif q.answers?(answers[id_str])
-        hash[:correct] << q.id
-      else
-        hash[:wrong] << q.id
-      end
+      cl =  if q.type?('text') && !answers[id_str].blank?
+              'pending'
+            else 
+              q.answers?(answers[id_str]) ? 'correct' : 'wrong'
+            end
+      hash[cl.to_sym] += 1
+      hash[:detail].merge!(q.id => cl)
       hash
     end
+    data[:size] = questions.size
+    data[:percentage] = self.get_percentage(data)
+    data
   end
+  
   def self.has_type?(type)
     !type.blank? && Question.types.has_value?(type)
   end
+  
+  def self.get_percentage(data)
+    size = data[:size]
+    correct = data[:correct]
+    pending = data[:pending]
+    ((correct.to_f / size)*100).round(2).to_s + " % "
+  end
+  
   private
   def answer_picked?
     selected = options.select { |o| o.selected? }.size
@@ -59,6 +71,7 @@ class Question < ActiveRecord::Base
       errors.add(:answer, "needs to be choosen")
     end
   end
+  
   def options_valid?
     if type?('text')
       errors.add(:options, "should have only 1")
@@ -66,4 +79,5 @@ class Question < ActiveRecord::Base
       errors.add(:options, "has duplicate") 
     end
   end
+  
 end

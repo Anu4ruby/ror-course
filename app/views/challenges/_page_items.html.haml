@@ -1,0 +1,11 @@
+- items.each do |item|
+  .page-item.border2{:id => "q#{item.id}", :class => classes[item.id]}
+    - if admin_user?
+      .action.pull-right
+        .btn
+          = link_to '', edit_challenge_path(item), :class => 'icon-edit', :title => 'Edit'
+    .item-idx
+    .description.span11
+      = item.description
+    .answer.clear
+      = render 'set_answer_input', :question => item

@@ -25,7 +25,6 @@ class ChallengesController < ApplicationController
     @questions = Question.all
     @answers = params[:answers]
     @stat = Question.check_answers(@answers, @questions)
-    @correct_class = @stat[:correct].inject({}){|r, i| r.merge(i => 'correct')}
   end
   def update
     if @question.update_attributes(params[:question])

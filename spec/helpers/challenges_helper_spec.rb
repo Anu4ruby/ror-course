@@ -194,15 +194,36 @@ describe ChallengesHelper do
     end
   end
   
-  describe 'output_stat' do
-    it 'rendered' do
-      data = {:size => 10, :correct => (1..6).to_a, :pending => (7..10).to_a}
+  context 'output_stat' do
+    it do
+      data = {:size => 10, :pending => 2, :percentage => "80 % "}
       output_stat(data).should =~ /div.*span/
     end
-    it 'should be ""' do
+    it do
       data = {}
       output_stat(data).should == ""
     end
   end
-  
+#   
+  # describe 'result_classes' do
+    # let(:range) { (1..20).to_a }
+    # let(:correct) { range.shuffle.first(13) }
+    # let(:pending) { (range - correct).shuffle.first(3) }
+    # let(:wrong) { range - correct - pending }
+    # let(:data) { {:correct => correct, 
+                  # :wrong => wrong, 
+                  # :pending => pending, 
+                  # :size => range.size}}
+    # let(:classes) { result_classes(data) }
+#     
+    # def select(selected)
+      # classes.select { |k, v| v == selected.to_s }.keys
+    # end 
+#     
+    # ["wrong", "correct", "pending"].each do |sel|
+      # it "has #{sel} classes matched" do
+        # select(sel).should == data[sel.to_sym]
+      # end
+    # end
+  # end
 end

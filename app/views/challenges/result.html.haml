@@ -4,5 +4,5 @@
   .row-fluid#result-stat
     .span10.offset1.label.label-warning
       = output_stat(@stat)
-  = render 'pages', :correct => @correct_class
+  = render 'pages', :detail => @stat[:detail]
 

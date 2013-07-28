@@ -68,7 +68,7 @@ describe Question do
     end
   end
   
-  context 'check answers' do
+  context 'instance check answers' do
     let(:questions) { [text, single, multiple, single, multiple, single] }
     context 'should match' do
       ['text', 'single-select','multi-select'].each do |attr|
@@ -92,29 +92,39 @@ describe Question do
     end
   end
   
-  describe 'check all answers' do
+  describe 'class check answers' do
+    let(:qs) { Question.all }
+    let(:texts) { Question.where(:qtype => 'text') }
+    let(:selections) { qs - texts }
+    let(:answers) { qs.inject({}) { |r,q| r.merge(q.id.to_s => q.answers.map(&:id))} }
+    let(:data) { Question.check_answers(answers, qs) }
+    let(:keys) { [:wrong, :size, :pending, :correct, :detail, :percentage] }
+    let(:sizes) { { :size => qs.size,
+                    :pending => texts.size,
+                    :correct => selections.size, 
+                    :wrong => 0,
+                    :detail => qs.size } }
     before(:each) do
-      fgc(:text_question)
-      fgc(:single_select_question)
-      fgc(:multi_select_question)
+      5.times { fgc(:text_question) }
+      8.times { fgc(:single_select_question) }
+      3.times { fgc(:multi_select_question) }
     end
     
-    it 'returns hash with keys [:wrong, :size, :pending, :correct]' do
-      data = Question.check_answers({})
-      data.keys.sort.should == [:wrong, :size, :pending, :correct].sort
+    context 'hash keys' do
+      it { data.keys.sort.should == keys.sort }
     end
     
-    it 'should work' do
-      qs = Question.all
-      texts = Question.where(:qtype => 'text')
-      answers = qs.inject({}) { |r,q| r.merge(q.id.to_s => q.answers.map(&:id))}
-      data = Question.check_answers(answers, qs) 
-      data[:size].should == qs.size
-      data[:pending].should == texts.map(&:id)
-      data[:correct].should == (qs - texts).map(&:id)
-      data[:wrong].should == []
+    [:size, :pending, :correct, :wrong].each do |sym|
+      context "number for #{sym}" do
+        it { data[sym].should == sizes[sym] }
+      end
     end
-    
+    context 'size for detail items' do
+      it { data[:detail].size.should == sizes[:detail] }
+    end
+    context 'percentage' do
+      it { data[:percentage].should == Question.get_percentage(data) }
+    end
   end
 
   describe 'has_type?' do
