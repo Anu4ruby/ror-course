@@ -1,10 +1,16 @@
 language: ruby
 rvm:
-  - 1.9.3
+- 1.9.3
 env:
-  - DB=sqlite
+- DB=sqlite
 script:
-  - RAILS_ENV=test bundle exec rake --trace db:migrate
-  - bundle exec rake db:test:prepare
-  - bundle exec rspec spec/
-
+- RAILS_ENV=test bundle exec rake --trace db:migrate
+- bundle exec rake db:test:prepare
+- bundle exec rspec spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: EqGxIVgtB4MqEAXTTPe+QUWyQZrEboPnPwcjCqIby6VHxYTZQbTjQnOsIkynZ6pkqo8EStsY7VUbK67dcDy0hhP5J3EmLazHK8pPTXa7I5aV1R+oZi9Veu789Hi/3Pvhry99yKuy1g48MEgsSbl74aZfbR8ywBDPH06RNs4kPfI=
+  app: ror-course
+  on:
+    repo: kick-start/ror-course
