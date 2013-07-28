@@ -3,7 +3,7 @@
     .container
       = link_to "RoR Course", root_path, class: "brand"
       %ul.nav
-        - if user_signed_in? && current_user.is_admin?
+        - if admin_user?
           = render 'shared/admin/nav'
         - else
           %li

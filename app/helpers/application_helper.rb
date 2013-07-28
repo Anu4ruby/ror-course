@@ -19,7 +19,7 @@ module ApplicationHelper
   def number_of_pages(collection, page_size = 10)
     (collection.size/10 + 1).to_i
   end
-  def is_admin?
+  def admin_user?
     user_signed_in? && current_user.is_admin?
   end
   def normal_user?

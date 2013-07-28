@@ -6,7 +6,7 @@
       .span10.offset1
         - page_items(@questions, page).each do |item|
           .page-item.border2{:id => "q#{item.id}", :class => correct[item.id]}
-            - if is_admin?
+            - if admin_user?
               .action.pull-right
                 .btn
                   = link_to '', edit_challenge_path(item), :class => 'icon-edit', :title => 'Edit'

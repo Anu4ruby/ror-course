@@ -3,5 +3,5 @@
 = form_tag('/challenges/submit', :id => 'challenge-form')
 .container-fluid
   = render 'pages', :correct => {}
-= submit_tag 'Submit', :class => 'btn pull-right' unless is_admin?
+= submit_tag 'Submit', :class => 'btn pull-right' unless admin_user?
     
