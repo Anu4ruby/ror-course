@@ -98,6 +98,12 @@ describe Question do
       fgc(:single_select_question)
       fgc(:multi_select_question)
     end
+    
+    it 'returns hash with keys [:wrong, :size, :pending, :correct]' do
+      data = Question.check_answers({})
+      data.keys.sort.should == [:wrong, :size, :pending, :correct].sort
+    end
+    
     it 'should work' do
       qs = Question.all
       texts = Question.where(:qtype => 'text')
@@ -106,11 +112,9 @@ describe Question do
       data[:size].should == qs.size
       data[:pending].should == texts.map(&:id)
       data[:correct].should == (qs - texts).map(&:id)
+      data[:wrong].should == []
     end
-    it 'returns hash with keys [:size, :pending, :correct]' do
-      data = Question.check_answers({})
-      data.keys.sort.should == [:size, :pending, :correct].sort
-    end
+    
   end
 
   describe 'has_type?' do

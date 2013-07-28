@@ -34,13 +34,15 @@ class Question < ActiveRecord::Base
   def self.check_answers(answers, questions = nil)
     answers.each_value {|ans| ans.delete_if {|item| item.blank?} }
     questions ||= Question.all
-    data = {:pending => [], :correct => [], :size => questions.size}
+    data = {:wrong => [], :pending => [], :correct => [], :size => questions.size}
     questions.inject(data) do |hash, q|
       id_str = q.id.to_s
       if q.type?('text') && !answers[id_str].blank?
         hash[:pending] << q.id
+      elsif q.answers?(answers[id_str])
+        hash[:correct] << q.id
       else
-        hash[:correct] << q.id if q.answers?(answers[id_str])
+        hash[:wrong] << q.id
       end
       hash
     end
