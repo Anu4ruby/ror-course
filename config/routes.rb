@@ -1,6 +1,8 @@
 RorCourse::Application.routes.draw do   
   devise_for :users
-  
+
+  root :to => 'home#index'
+
   match 'home/ror' => 'home#ror'
   match 'course-contents' => 'contents#index', :as => 'course_contents'
   resources :contents, :except => [:new, :create, :destroy]
@@ -23,7 +25,4 @@ RorCourse::Application.routes.draw do
       get 'page/:number', :action => 'page'
     end
   end
-  
-  root :to => 'home#index'
-
 end
