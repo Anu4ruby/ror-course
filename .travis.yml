@@ -7,6 +7,7 @@ script:
 - RAILS_ENV=test bundle exec rake --trace db:migrate
 - bundle exec rake db:test:prepare
 - bundle exec rspec spec/
+bundler_args: --binstubs=./bundler_stubs
 deploy:
   provider: heroku
   api_key:
@@ -14,3 +15,4 @@ deploy:
   app: ror-course
   on:
     repo: kick-start/ror-course
+    rvm: 1.9.3
