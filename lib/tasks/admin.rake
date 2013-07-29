@@ -1,10 +1,15 @@
 namespace :app_tasks do
 desc "task description"
-task :add_initial_admin => :environment do
-@a = User.find_by_email("gourav@aristontek.com") 
-@a.is_admin = "true"
-@a.save!  
-    
+task :add_initial_admins => :environment do
+  admins = ['gourav@aristontek.com', 
+            'pobuchan2010@gmail.com', 
+            'anu4ruby@gmail.com',
+            'gnarmediacom@gmail.com']
+  admins.each do |email|
+    user = User.find_by_email(email)
+    user.is_admin = true
+    user.save
+  end
 end
 
 desc "Course Contents"
