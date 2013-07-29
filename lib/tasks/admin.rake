@@ -7,8 +7,10 @@ task :add_initial_admins => :environment do
             'gnarmediacom@gmail.com']
   admins.each do |email|
     user = User.find_by_email(email)
-    user.is_admin = true
-    user.save
+    if user
+      user.is_admin = true
+      user.save
+    end
   end
 end
 
