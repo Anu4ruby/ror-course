@@ -1,0 +1,19 @@
+- answer = @answers[item.id.to_s]
+.page-item.border2{:id => "q#{item.id}", :class => @classes[item.id]}
+  .item-idx
+  .description.span11
+    = item.description
+  .answer.clear
+    - if item.type? 'text'
+      .default
+        .icon-ok.pull-right
+        = item.options.first.content
+      .selected
+        = answer[0]
+    - else
+      - item.options.each do |choice|
+        .choice.row-fluid{ :class => set_selected(answer, choice.id.to_s) }
+          .choice-content
+            - if choice.selected?
+              = "<span class='icon-ok pull-right'></span>".html_safe
+            = choice.content 

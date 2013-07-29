@@ -39,4 +39,8 @@ module ChallengesHelper
       concat content_tag(:span, "pending: #{ data[:pending]} / #{data[:size] }")
     end
   end
+  
+  def set_selected(data, item)
+    "selected" if data && data.include?(item)
+  end
 end

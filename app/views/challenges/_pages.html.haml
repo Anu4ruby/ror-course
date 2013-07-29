@@ -1,10 +1,9 @@
-- pages = number_of_pages(@questions)
-- detail ||= {}
-= render 'shared/pagination', :pages => pages
+- pages_items = paginated(@questions).to_a
+- pages_size = pages_items.size
+= render 'shared/pagination/nav', :pages => pages_size
 .pages
-  - 1.upto pages do |page|
+  - pages_items.each do |items|
     .page.row-fluid
       .span10.offset1
-        - items = page_items(@questions, page)
-        = render 'page_items', :items => items, :classes => detail
-= render 'shared/pagination', :pages => pages
+        = render :partial => view_file, :collection => items, :as => :item
+= render 'shared/pagination/nav', :pages => pages_size

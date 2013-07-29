@@ -23,8 +23,8 @@ class ChallengesController < ApplicationController
   end
   def result
     @questions = Question.all
-    answers = params[:answers]
-    @stat = Question.check_answers(answers, @questions)
+    @answers = params[:answers]
+    @stat = Question.check_answers(@answers, @questions)
   end
   def update
     if @question.update_attributes(params[:question])

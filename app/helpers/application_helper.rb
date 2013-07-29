@@ -1,7 +1,9 @@
 module ApplicationHelper
+  # not needed
   def asset_exist?(filename)
     !Rails.application.assets.find_asset(filename).nil?
   end
+  
   def page_items(collection, page, page_size = 10)
     pages = (collection.size/page_size + 1).to_i
     if page.between?(1, pages)
@@ -18,6 +20,10 @@ module ApplicationHelper
   end
   def number_of_pages(collection, page_size = 10)
     (collection.size/10 + 1).to_i
+  end
+  # not needed end
+  def paginated(collection, page_size = 10)
+    collection.each_slice(page_size).to_a
   end
   def admin_user?
     user_signed_in? && current_user.is_admin?

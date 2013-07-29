@@ -2,6 +2,6 @@
   %h1 Challenge Questions
 = form_tag('/challenges/submit', :id => 'challenge-form')
 .container-fluid
-  = render 'pages', :correct => {}
+  = render 'pages', :view_file => 'page_item'
 = submit_tag 'Submit', :class => 'btn pull-right' unless admin_user?
     
