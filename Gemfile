@@ -8,7 +8,6 @@ gem 'rails', '3.2.13'
 
 gem 'devise'
 gem 'haml'
-gem 'heroku'
 gem "cancan"
 gem 'nested_form'
 group :production do
