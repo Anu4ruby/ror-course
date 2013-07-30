@@ -3,5 +3,4 @@
 = form_tag('/challenges/submit', :id => 'challenge-form')
 .container-fluid
   = render 'pages', :view_file => 'page_item'
-= submit_tag 'Submit', :class => 'btn pull-right' unless admin_user?
-    
+= submit_tag 'Submit', :class => 'btn pull-right'
