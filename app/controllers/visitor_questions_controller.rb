@@ -9,7 +9,7 @@ class VisitorQuestionsController < ApplicationController
   def create
     @question = VisitorQuestion.new(params[:visitor_question])
     if @question.save
-      msg = "Thanks for your submittion"
+      msg = "Thanks for your submission"
     else
       msg = "Please provide valid email and description"
     end

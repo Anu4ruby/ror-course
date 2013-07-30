@@ -56,6 +56,7 @@ FactoryGirl.define do
       "ask#{n}@example.com"
     end
     factory :responded_visitor_question do
+      updated_at Time.now
       sequence :respond do |n|
         'admin responded #{n}'
       end
