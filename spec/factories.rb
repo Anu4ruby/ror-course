@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :user do
     sequence :email do |n|
-      "user#{n}@example.com"
+      "user_#{n}@example.com"
     end
     password "password"
     confirmed_at Time.now
@@ -56,7 +56,7 @@ FactoryGirl.define do
       "ask#{n}@example.com"
     end
     factory :responded_visitor_question do
-      updated_at Time.now
+      updated_at (Time.now + 1000)
       sequence :respond do |n|
         'admin responded #{n}'
       end

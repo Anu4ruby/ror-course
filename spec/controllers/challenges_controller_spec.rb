@@ -106,24 +106,21 @@ describe ChallengesController do
     
     describe 'PUT update' do
       describe 'with valid id' do
+        before(:each) do
+          request.env["HTTP_REFERER"] = challenge_url(q)
+          q.should_receive(:update_attributes).and_return(success)
+          Question.should_receive(:find).and_return(q)
+          put :update, :id => q.id
+        end
+        
         describe 'with valid attributes' do
-          before(:each) do
-            q.stub!(:update_attributes).and_return(true)
-            Question.should_receive(:find).and_return(q)
-            put :update, :id => q.id
-          end
+          let(:success) { true }
           it 'should redirect to show page' do
             response.should redirect_to q
           end            
         end
         describe 'without valid attributes' do
-          before(:each) do
-            request.env["HTTP_REFERER"] = challenge_url(q)
-            q.stub!(:update_attributes).and_return(false)
-            Question.should_receive(:find).and_return(q)
-            put :update, :id => q.id
-          end
-          
+          let(:success) { false }
           it 'should redirect back' do
             redirect_back
           end

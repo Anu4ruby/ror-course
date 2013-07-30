@@ -11,18 +11,21 @@ describe VisitorQuestionsController do
         assigns(:question).should be_new_record
       end
       
-      it 'assigns @questions with size of 10' do
-        qs = []
-        20.times{ qs << FactoryGirl.create(:responded_visitor_question) }
-        5.times{FactoryGirl.create(:visitor_question)}
-        get :index
-        assigns(:questions).should =~ qs[10...20]
-        assigns(:questions).size.should == 10
-      end
-      
       it 'should renders index' do
         get :index
         response.should render_template :index
+      end
+      
+      it 'assigns @questions with 10 responded' do
+        size = 14
+        sym = "responded_visitor_question"
+        qs = size.times.inject([]) do |s, idx| 
+          s << fgc(sym.to_sym, :updated_at => Time.now + (idx * 10) )
+        end
+        5.times{ FactoryGirl.create(:visitor_question) }
+        get :index
+        assigns(:questions).should =~ qs[(size-10)...size]
+        assigns(:questions).should have(10).items
       end
       
     end
@@ -35,7 +38,7 @@ describe VisitorQuestionsController do
       
       it 'creates new @question' do
         post :create, :visitor_question => FactoryGirl.attributes_for(:visitor_question)
-        flash[:notice].should == "Thanks for your submittion"
+        flash[:notice].should == "Thanks for your submission"
         response.should redirect_to asks_url
       end
       
@@ -75,7 +78,7 @@ describe VisitorQuestionsController do
   end
   
   describe 'admin' do
-    
+    let(:q) { FactoryGirl.create(:visitor_question) }
     before(:each) do
       login_admin
     end
@@ -83,14 +86,13 @@ describe VisitorQuestionsController do
     describe 'GET not_respond/pending' do
       
       before(:each) do
-        qs = []
-        5.times{qs << FactoryGirl.create(:visitor_question)}
+        qs = 5.times.inject([]) { |s| s << FactoryGirl.create(:visitor_question) }
         3.times{ FactoryGirl.create(:responded_visitor_question) }
         get :not_respond
       end
       
       it 'should has all the questions without responded' do
-        assigns(:questions).size.should == 5
+        assigns(:questions).should have(5).items
         response.should render_template :not_respond
         response.body.should have_content 'Pending Questions'
       end 
@@ -99,8 +101,7 @@ describe VisitorQuestionsController do
     describe 'GET respond' do
       # check with valid id and without
       before(:each) do
-        @q = FactoryGirl.create(:visitor_question)
-        get :respond, :id => @q.id
+        get :respond, :id => q.id
       end
       
       it 'shows the respond page' do
@@ -110,13 +111,13 @@ describe VisitorQuestionsController do
     
     describe 'POST responded' do
       before(:each) do
-        @q = FactoryGirl.create(:visitor_question)
+        request.env["HTTP_REFERER"] = respond_ask_url(q)
+        post :responded,
+             :id => q.id,
+             :visitor_question => { :respond => respond }
       end
       describe 'update respond success' do
-        before(:each) do
-          post :responded, :id => @q.id, :visitor_question => {:respond => 'answered'}
-        end
-        
+        let(:respond) { 'answered' }
         it 'should go pending page' do
           response.should redirect_to not_respond_asks_url
         end
@@ -128,11 +129,7 @@ describe VisitorQuestionsController do
       end
       
       describe 'update respond fails' do
-        before(:each) do
-          request.env["HTTP_REFERER"] = respond_ask_url(@q)
-          post :responded, :id => @q.id, :visitor_question => {:respond => ''}
-        end
-        
+        let(:respond) { "" }
         it 'should go back' do
           response.should redirect_to :back
         end
@@ -140,7 +137,6 @@ describe VisitorQuestionsController do
         it 'should notice with message "Respond text too short"' do
           flash[:notice].should have_content 'Respond text too short'
         end
-        
         
       end
       
