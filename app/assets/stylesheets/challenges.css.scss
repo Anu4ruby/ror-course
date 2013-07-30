@@ -39,16 +39,20 @@
 .choices .fields input[type=radio],.choices .fields input[type=checkbox]{
   min-height: 24px;
   width: 32px;
+  margin-top: 0;
 }
 .page-item .choice-select{
   width: 15px;
+}
+.choice-select input[type=radio], .choice-select input[type=checkbox]{
+    margin-top: 0;
 }
 .choices .span-static{
   width: 450px;
 }
 
 .choices .fields{
-  padding-bottom: 4px;
+  // padding-bottom: 4px;
 }
 
 #challenge-form .container-fluid{
