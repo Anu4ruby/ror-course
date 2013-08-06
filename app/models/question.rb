@@ -8,23 +8,18 @@ class Question < ActiveRecord::Base
   validates :qtype, :presence => true
   validates :options, :presence => true
   # validate :options_duplicated?, :answer_picked?
-  def after_validation
-    options_valid?
-    answer_picked?
-  end
+  after_validation :correct_type?, :options_valid?, :answer_picked?
+  
   def type?(type)
-    raise StandardError, 'Question type not set yet' if qtype.blank?
     qtype == type
   end
   def answers
     options.where('selected = ?', true)
   end
   def answers?(answers)
-    self.answers.map(&:id) == [*answers].map{|a| a.to_i} 
+    self.answers.map(&:id) == [*answers].map { |a| a.to_i } 
   end
-  # def eql_attr?(dup)
-    # type?(dup.qtype) && description == dup.description && options == dup.options 
-  # end
+  
   def self.types
     { 'Free Text' => 'text', 
       'Single Select' => 'single-select', 
@@ -51,10 +46,6 @@ class Question < ActiveRecord::Base
     data
   end
   
-  def self.has_type?(type)
-    !type.blank? && Question.types.has_value?(type)
-  end
-  
   def self.get_percentage(data)
     size = data[:size]
     correct = data[:correct]
@@ -64,20 +55,37 @@ class Question < ActiveRecord::Base
   
   private
   def answer_picked?
-    selected = options.select { |o| o.selected? }.size
-    if type?('multi-select')
-      errors.add(:answer, "at least 1 choosen") unless selected >= 1
-    elsif selected != 1
+    if options.size < 0 || options.select { |o| o.selected? }.size < 1
       errors.add(:answer, "needs to be choosen")
+      false
+    else
+      true
     end
   end
   
   def options_valid?
-    if type?('text')
-      errors.add(:options, "should have only 1")
-    elsif options.size > options.map(&:content).uniq.size
-      errors.add(:options, "has duplicate") 
+    size = options.size
+    if size < 1
+      errors.add(:options, "is required")
+      return false 
     end
+    if type?('text') && options.size != 1
+      errors.add(:options, "should have only 1")
+      return false
+    end
+    
+    if options.size > options.map(&:content).uniq.size
+      errors.add(:options, "has duplicate")
+      return false 
+    end
+    true
   end
+  
+  def correct_type?
+    return true if (!qtype.blank? && Question.types.has_value?(qtype))
+    errors.add(:qtype, "is not correct question type")
+    false
+  end
+  
   
 end
