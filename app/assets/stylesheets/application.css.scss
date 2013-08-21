@@ -71,9 +71,15 @@ body{
   width: 900px;
 }
 
- .fields{
+.fields{
 
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+}
+ul.nav li.dropdown:hover > ul.dropdown-menu{
+    display: block;
+}
+.dropdown-menu{
+  top: 92%;
 }
